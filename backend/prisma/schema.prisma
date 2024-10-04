@@ -9,6 +9,60 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  user_id      String   @id @default(cuid())
+  username     String   @unique
+  password     String
+  history_chat Chat[]
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model PromptHistory {
+  prompt_id  String @id @default(cuid())
+  isi_prompt String
+
+  created_at DateTime @default(now())
+
+  // relation 1-1 Chat-Prompt
+  from_chat Chat   @relation(fields: [chatId], references: [chat_id])
+  chatId    String @unique
+}
+
+model Chat {
+  chat_id          String          @id @default(cuid())
+  umur             Int
+  berat_badan      Float
+  tinggi_badan     Float
+  jenis_kelamin    JenisKelamin
+  riwayat_penyakit RiwayatPenyakit
+  detail_chat      PromptHistory?
+
+  // relation 1-m UserChat
+  author User @relation(fields: [chat_id], references: [user_id])
+}
+
+enum JenisKelamin {
+  Laki_Laki
+  Perempuan
+}
+
+enum RiwayatPenyakit {
+  Obesitas
+  Asma
+  Maag
+  Migrain
+  Hipertensi
+  Kolesterol
+  Anemia
+  Vertigo
+  Asam_Urat
+  Diabetes
+  Diare
+  Diabetes_Melitus
 }
