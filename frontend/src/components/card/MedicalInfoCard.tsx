@@ -12,7 +12,7 @@ import { UserDetailForm } from "../form/MedicalInfoForm";
 type Props = {
   onClick: () => void;
 };
-export const UserDetailCard: React.FC<Props> = (props) => {
+export const MedicalInfoCard: React.FC<Props> = (props) => {
   return (
     <Card>
       <CardHeader>
