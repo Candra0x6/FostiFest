@@ -7,11 +7,29 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  // GET ALL USER
+  async getAllUsers(): Promise<User[]> {
+    return this.prisma.user.findMany({
+      include: {
+        history_chat: {
+          include: { detail_chat: true },
+        },
+      },
+    });
+  }
+
   // GET SINGLE USER
   async getOneuser(user_id: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: {
         user_id: user_id,
+      },
+      include: {
+        history_chat: {
+          include: {
+            detail_chat: true,
+          },
+        },
       },
     });
   }

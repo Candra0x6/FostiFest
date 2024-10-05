@@ -44,7 +44,8 @@ model Chat {
   detail_chat      PromptHistory?
 
   // relation 1-m UserChat
-  author User @relation(fields: [chat_id], references: [user_id])
+  author User   @relation(fields: [chatID], references: [user_id])
+  chatID String
 }
 
 enum JenisKelamin {
