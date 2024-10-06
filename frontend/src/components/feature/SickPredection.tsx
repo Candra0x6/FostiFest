@@ -10,6 +10,7 @@ import { MedicalInfoCard } from "../card/MedicalInfoCard";
 import { LoadingStethoscope } from "../skeleton/LoadingStethoscope";
 import { MedicalHistoryCard } from "../card/MedicalHistoryCard";
 import { HealthRiskResult } from "../card/HealthRiskResult";
+import { LifestyleInfoCard } from "../card/LifestyleInfoCard";
 export default function SickPrediction() {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
@@ -105,6 +106,33 @@ export default function SickPrediction() {
       title: "Step 3",
       content: () => {
         if (selectedPath === "selfCheck") {
+          return <LifestyleInfoCard onClick={() => nextStep()} />;
+        } else if (selectedPath === "doctorConsult") {
+          return (
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h2 className="text-xl font-bold mb-4">Konfirmasi Jadwal</h2>
+              <div className="space-y-4">
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <p className="text-green-700">
+                    Jadwal konsultasi Anda telah dikonfirmasi!
+                  </p>
+                  <p className="text-sm text-green-600 mt-2">
+                    Anda akan menerima email konfirmasi dengan detail lengkap.
+                  </p>
+                </div>
+                <Button onClick={() => setCurrentStep(0)} className="w-full">
+                  Kembali ke Beranda
+                </Button>
+              </div>
+            </div>
+          );
+        }
+      },
+    },
+    {
+      title: "Step 4",
+      content: () => {
+        if (selectedPath === "selfCheck") {
           return <MedicalHistoryCard onClick={() => handleStep()} />;
         } else if (selectedPath === "doctorConsult") {
           return (
@@ -145,8 +173,9 @@ export default function SickPrediction() {
         }
       },
     },
+
     {
-      title: "Step 4",
+      title: "Step 5",
       content: () => {
         if (selectedPath === "selfCheck") {
           return (
@@ -230,7 +259,7 @@ export default function SickPrediction() {
         variant="default"
         size="icon"
         className={`mb-5 transition-all duration-700 ease-in-out ${
-          currentStep !== 0 && currentStep !== 3
+          currentStep !== 0 && currentStep !== 4
             ? "visible translate-x-0 opacity-100"
             : "invisible translate-x-11 opacity-0"
         }`}
