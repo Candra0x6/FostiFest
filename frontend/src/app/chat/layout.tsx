@@ -10,7 +10,7 @@ export default async function ChatLayout({
       <aside className="fixed">
         <Sidebar />
       </aside>
-      <main>{children}</main>
+      <main className="md:px-0 px-2">{children}</main>
     </>
   );
 }
