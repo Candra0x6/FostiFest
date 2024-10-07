@@ -55,7 +55,16 @@ const config: Config = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		fontFamily: {
+			Poppins: "Poppins",
+		},
+		backgroundColor: {
+			primary: "#fff",
+		},
+		textColor: {
+			primary: "#151d68"
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],
