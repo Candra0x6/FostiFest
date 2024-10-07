@@ -6,23 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Button } from "../ui/button";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { MedicalHistoryFormCheckbox } from "../form/MedicalHistoryForm";
 
 type Props = {
   onClick: () => void;
 };
-const dummySymptoms = [
-  "Demam",
-  "Batuk",
-  "Sakit Kepala",
-  "Pusing",
-  "Mual",
-  "Lemas",
-  "Nyeri Sendi",
-  "Pilek",
-];
+
 export const MedicalHistoryCard: React.FC<Props> = (props: Props) => {
   return (
     <Card>
@@ -34,25 +23,9 @@ export const MedicalHistoryCard: React.FC<Props> = (props: Props) => {
           Pilih Riwayat Penyakit Anda untuk analisis AI
         </p>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
-        {dummySymptoms.map((symptom, index) => (
-          <Label
-            key={index}
-            className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-primary/5 cursor-pointer"
-          >
-            <Input
-              type="checkbox"
-              className="form-checkbox h-5 w-5 text-primary accent-primary"
-            />
-            <span>{symptom}</span>
-          </Label>
-        ))}
+      <CardContent className="gap-4">
+        <MedicalHistoryFormCheckbox onClick={props.onClick} />
       </CardContent>
-      <CardFooter>
-        <Button onClick={() => props.onClick()} className="w-full mt-6">
-          Analisis Penyakit
-        </Button>
-      </CardFooter>
     </Card>
   );
 };

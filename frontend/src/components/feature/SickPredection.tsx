@@ -1,4 +1,5 @@
 // components/Stepper.js
+"use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiChoiseCard } from "../card/AiChoiseCard";
@@ -11,7 +12,9 @@ import { LoadingStethoscope } from "../skeleton/LoadingStethoscope";
 import { MedicalHistoryCard } from "../card/MedicalHistoryCard";
 import { HealthRiskResult } from "../card/HealthRiskResult";
 import { LifestyleInfoCard } from "../card/LifestyleInfoCard";
+import { useUserHealthStore } from "@/store/user-health-store";
 export default function SickPrediction() {
+  const { medicalHistory, userDetails, userLifestyle } = useUserHealthStore();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);

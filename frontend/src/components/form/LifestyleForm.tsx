@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,27 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-
-const formSchema = z.object({
-  kebiasaanMerokok: z.enum([
-    "Tidak Merokok",
-    "Mantan Perokok",
-    "Perokok Aktif",
-  ]),
-  konsumsiAlkohol: z.enum(["Tidak Pernah", "Kadang-kadang", "Sering"]),
-  polaKonsumsi: z.enum([
-    "Seimbang",
-    "Vegetarian",
-    "Vegan",
-    "Tinggi Protein",
-    "Tinggi Karbohidrat",
-    "Rendah Lemak",
-    "Keto",
-    "Bebas Gluten",
-    "Tidak Ada Diet Khusus",
-  ]),
-  aktivitasFisik: z.enum(["Sangat Jarang", "Jarang", "Sedang", "Rutin"]),
-});
+import { lifestyleSchema } from "@/lib/validators/lifestyleSchema";
+import { useUserHealthStore } from "@/store/user-health-store";
 
 const section = [
   {
@@ -86,8 +68,9 @@ type Props = {
 };
 
 export const LifestyleForm: React.FC<Props> = (props) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { updateUserLifestyle } = useUserHealthStore();
+  const form = useForm<z.infer<typeof lifestyleSchema>>({
+    resolver: zodResolver(lifestyleSchema),
     defaultValues: {
       kebiasaanMerokok: "Tidak Merokok",
       konsumsiAlkohol: "Tidak Pernah",
@@ -96,31 +79,42 @@ export const LifestyleForm: React.FC<Props> = (props) => {
     },
   });
 
+  const onSubmit = async (data: any) => {
+    updateUserLifestyle({ KebiasaanHidup: data });
+    props.onClick();
+  };
+
   return (
     <Form {...form}>
-      <form className="gap-x-4 grid sm:grid-cols-2 grid-cols-1 gap-4">
-        {section.map((value, i) => (
-          <FormField
-            key={i}
-            control={form.control}
-            name={
-              value.name as
-                | "kebiasaanMerokok"
-                | "konsumsiAlkohol"
-                | "polaKonsumsi"
-                | "aktivitasFisik"
-            }
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{value.label}</FormLabel>
-                <FormControl>
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue
-                        placeholder={value.label}
-                        className="w-full"
-                      />
-                    </SelectTrigger>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="gap-x-4 grid sm:grid-cols-2 grid-cols-1 gap-4">
+          {section.map((value, i) => (
+            <FormField
+              key={i}
+              control={form.control}
+              name={
+                value.name as
+                  | "kebiasaanMerokok"
+                  | "konsumsiAlkohol"
+                  | "polaKonsumsi"
+                  | "aktivitasFisik"
+              }
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{value.label}</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue
+                          placeholder={value.label}
+                          className="w-full"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>{value.label}</SelectLabel>
@@ -132,17 +126,17 @@ export const LifestyleForm: React.FC<Props> = (props) => {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </div>
+        <Button type="submit" className="mt-5 w-full">
+          Continue
+        </Button>
       </form>
-      <Button onClick={props.onClick} className="mt-5 w-full">
-        Continue
-      </Button>
     </Form>
   );
 };
