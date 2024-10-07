@@ -5,10 +5,10 @@ const Case = () => {
   const caseContent = [
     {
       number: "%",
-      tick: 50,
+      tick: 70,
       caption:
-        "Persentase kematian yang dapat dicegah dengan deteksi dini dan perawatan yang tepat di Indonesia.",
-      source: "WHO, Kemenkes",
+        "Kematian akibat penyakit tidak menular di seluruh dunia dapat dicegah dengan intervensi awal yang tepat.",
+      source: "WHO",
     },
     {
       number: "ribu",

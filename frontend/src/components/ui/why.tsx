@@ -1,67 +1,104 @@
-import React from 'react';
-import { MagicCard } from './magic-card';
+import React, { useState } from 'react';
 
 const Why = () => {
-  const cardContent = [
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleAccordion = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const accordionContent = [
     {
-      d: "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z",
-      text: "Cegah penyakit berkembang lebih parah.",
-      additionalText: "Dengan langkah pencegahan yang tepat, kita bisa mencegah berbagai penyakit berat dan menjaga kesehatan tubuh secara keseluruhan.",
-      color: "#34D399",
+      title: "Fitur Deteksi Dini",
+      description: "Deteksi dini adalah proses mengenali tanda-tanda awal suatu penyakit sebelum gejala menjadi lebih serius. Dengan menggunakan teknologi terbaru, platform kami memungkinkan pengguna untuk menjalani evaluasi risiko penyakit melalui kuesioner dan alat penilaian kesehatan. Ini sangat penting, karena banyak penyakit dapat diobati lebih efektif jika dideteksi pada tahap awal. Menurut World Health Organization (WHO), hampir 70% kematian akibat penyakit tidak menular di seluruh dunia dapat dicegah dengan intervensi awal yang tepat."
     },
     {
-      d: "M13 2L3 14h9l-2 8 10-12h-9z",
-      text: "Penanganan lebih awal, hasil lebih baik.",
-      additionalText: "Tindakan cepat dapat meningkatkan peluang pemulihan dan mencegah komplikasi lebih lanjut.",
-      color: "#3B82F6",
+      title: "Rekomendasi Kesehatan Personal",
+      description: "Setiap individu memiliki riwayat kesehatan yang unik. Oleh karena itu, sistem kami memberikan rekomendasi kesehatan yang disesuaikan berdasarkan data kesehatan dan gaya hidup pengguna. Misalnya, jika pengguna memiliki riwayat hipertensi, sistem akan merekomendasikan pengendalian tekanan darah dan pemeriksaan rutin. Penelitian menunjukkan bahwa intervensi kesehatan yang dipersonalisasi dapat meningkatkan kepatuhan pasien terhadap pengobatan dan program pencegahan."
     },
     {
-      d: "M8 8h8m-8 4h8m-8 4h8M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z",
-      text: "Lebih hemat biaya pengobatan.",
-      additionalText: "Investasi dalam pencegahan dan deteksi dini dapat mengurangi pengeluaran untuk perawatan yang lebih mahal di kemudian hari.",
-      color: "#A855F7",
+      title: "Pusat Informasi Kesehatan",
+      description: "Sebagai bagian dari upaya pendidikan, fitur ini memberikan akses ke berbagai informasi tentang penyakit, gejala, dan metode pencegahan. Pengguna dapat mencari tahu lebih lanjut tentang kondisi kesehatan tertentu, tips gaya hidup sehat, serta kebiasaan pencegahan. Hal ini sangat penting untuk meningkatkan kesadaran masyarakat tentang pentingnya kesehatan dan pencegahan penyakit."
     },
+    {
+      title: "Pusat Informasi Kesehatan",
+      description: "Sebagai bagian dari upaya pendidikan, fitur ini memberikan akses ke berbagai informasi tentang penyakit, gejala, dan metode pencegahan. Pengguna dapat mencari tahu lebih lanjut tentang kondisi kesehatan tertentu, tips gaya hidup sehat, serta kebiasaan pencegahan. Hal ini sangat penting untuk meningkatkan kesadaran masyarakat tentang pentingnya kesehatan dan pencegahan penyakit."
+    }
   ];
 
   return (
     <section id="why" className="md:px-32 px-8 py-28 flex flex-col text-primary items-center">
-      <h1 className='md:text-3xl text-3xl text-center font-[700] opacity-85 text-primary capitalize'>Pentingnya Antisipasi</h1>
-      <p className='mb-6 mt-3 text-gray-500 text-[18px] text-center'>Mengapa kita perlu melakukan antisipasi untuk segala jenis penyakit?</p>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 max-w-5xl'>
-        {cardContent.map((item, index) => (
-          <MagicCard
-            key={index}
-            gradientColor={item.color}
-            gradientOpacity={0.2}
-            className="bg-white/70 border border-slate-300 p-8 flex flex-col items-center justify-center"
-          >
-            <div className="flex flex-col items-center text-center">
-              <svg
-                className="w-12 h-12 mb-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                stroke="url(#gradient)"
-                fill="transparent"
+      <h1 className='md:text-[28px] text-3xl text-center font-[700] opacity-85 text-primary capitalize'>
+        Mengapa Perlu Menggunakan Kami
+      </h1>
+      <p className='mb-6 mt-3 text-gray-500 text-[16px] text-center max-w-5xl'>
+        Kami menyediakan berbagai fitur untuk menunjang kesehatan Anda di masa depan. Dengan fitur deteksi penyakit, Anda akan mendapat rekomendasi berdasarkan kondisi kesehatan. Fitur yang kami hadirkan:
+      </p>
+      <div id="accordion-open" className="w-full md:mt-6 px-4 md:px-0">
+        {accordionContent.map((item, index) => (
+          <div key={index} className="w-full md:w-3/4 mx-auto transition-transform duration-300 hover:scale-105 hover:shadow-xl rounded-lg mb-2">
+            <h2 id={`accordion-open-heading-${index + 1}`}>
+              <button
+                type="button"
+                className="flex items-center justify-between w-full md:p-5 p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-200 hover:bg-blue-50 gap-3"
+                onClick={() => toggleAccordion(index)}
+                aria-expanded={openIndex === index}
+                aria-controls={`accordion-open-body-${index + 1}`}
               >
-                <defs>
-                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: "#34D399", stopOpacity: 1 }} />
-                    <stop offset="50%" style={{ stopColor: "#3B82F6", stopOpacity: 1 }} />
-                    <stop offset="100%" style={{ stopColor: "#A855F7", stopOpacity: 1 }} />
-                  </linearGradient>
-                </defs>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.d} />
-              </svg>
-              <div className='flex flex-col gap-1'>
-                <p className="text-[17px] font-semibold text-primary">{item.text}</p>
-                <p className="text-gray-500 text-[15px]">{item.additionalText}</p>
+                <span className="flex items-center md:text-base text-sm text-left font-medium text-black/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-5 h-5 mr-2"
+                  >
+                    <defs>
+                      <linearGradient id="checkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: "#34D399", stopOpacity: 1 }} />
+                        <stop offset="50%" style={{ stopColor: "#3B82F6", stopOpacity: 1 }} />
+                        <stop offset="100%" style={{ stopColor: "#A855F7", stopOpacity: 1 }} />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      fill="url(#checkGradient)"
+                      d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 472c-119.1 0-216-96.9-216-216S136.9 40 256 40s216 96.9 216 216-96.9 216-216 216zm100.7-299.3L233 295.4l-61.7-61.7c-7.8-7.8-20.5-7.8-28.3 0s-7.8 20.5 0 28.3l72 72c7.8 7.8 20.5 7.8 28.3 0l136-136c7.8-7.8 7.8-20.5 0-28.3s-20.5-7.8-28.3 0z"
+                    />
+                  </svg>
+                  {item.title}
+                </span>
+                <svg
+                  data-accordion-icon
+                  className={`w-3 h-3 shrink-0 ${openIndex === index ? "" : "rotate-180"}`}
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5 5 1 1 5"
+                  />
+                </svg>
+              </button>
+            </h2>
+            <div
+              id={`accordion-open-body-${index + 1}`}
+              className={`${openIndex === index ? "" : "hidden"}`}
+              aria-labelledby={`accordion-open-heading-${index + 1}`}
+            >
+              <div className="p-5 border border-b-0 border-gray-200 font-normal md:text-sm text-xs rounded-lg bg-white">
+                <p className="mb-2 text-gray-500">
+                  {item.description}
+                </p>
               </div>
             </div>
-          </MagicCard>
+          </div>
         ))}
       </div>
     </section>
   );
-};
+}
 
 export default Why;
