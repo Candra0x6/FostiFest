@@ -1,11 +1,11 @@
 "use client";
 import SickPredection from "@/components/feature/SickPredection";
-import { generateContentFromServer } from "@/hooks/generateContent";
+import { predictDiseaseWithAI } from "@/services/disease-prediction-ai-service";
 
 export default function ChatPage() {
   const handleAnlyzRecy = async () => {
     try {
-      const response = await generateContentFromServer();
+      const response = await predictDiseaseWithAI();
       console.log(response);
     } catch (err) {
       console.error(err);
