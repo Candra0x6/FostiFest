@@ -12,7 +12,7 @@ export class UserService {
     return this.prisma.user.findMany({
       include: {
         history_chat: {
-          include: { detail_chat: true },
+          include: { detail_chat: { include: { isi_prompt: true } } },
         },
       },
     });
@@ -27,7 +27,11 @@ export class UserService {
       include: {
         history_chat: {
           include: {
-            detail_chat: true,
+            detail_chat: {
+              include: {
+                isi_prompt: true,
+              },
+            },
           },
         },
       },
