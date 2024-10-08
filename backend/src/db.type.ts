@@ -1,7 +1,6 @@
 import {
   HealthScore,
   HealthSummary,
-  BMIAssessment,
   Chat,
   ImplementationPlan,
   Interpretation,
@@ -12,23 +11,25 @@ import {
   User,
 } from '@prisma/client';
 
+type BMIAssessment = {
+  id: number;
+  bmiValue: number;
+  category: string;
+  healthImplication: string;
+}
 export type DataFE = Chat & {
-  detail_chat: {
-    isi_prompt: {
-      healthScore: HealthScore & {
-        interpretation: Interpretation;
-        bmi_assessment: BMIAssessment;
-      };
-      potentialConditions: PotentialCondition;
-      lifestyleModifications: LifestyleModification & {
-        implementationPlan: ImplementationPlan;
-      };
-      nutritionalRecommendation: NutritionalRecommendation & {
-        servingGuidelines: ServingGuidelines;
-      };
-      healthSummary: HealthSummary;
-    };
+  healthScore: HealthScore & {
+    interpretation: Interpretation;
+    bmiAssessment: BMIAssessment;
   };
+  potentialConditions: PotentialCondition[];
+  lifestyleModifications: (LifestyleModification & {
+    implementationPlan: ImplementationPlan;
+  })[];
+  nutritionalRecommendation: (NutritionalRecommendation & {
+    servingGuidelines: ServingGuidelines;
+  })[];
+  healthSummary: HealthSummary;
 };
 
 export type UserWithChats = User & {
