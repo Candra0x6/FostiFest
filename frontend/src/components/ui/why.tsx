@@ -9,8 +9,8 @@ const Why = () => {
 
   const accordionContent = [
     {
-      title: "Fitur Deteksi Dini",
-      description: "Deteksi dini adalah proses mengenali tanda-tanda awal suatu penyakit sebelum gejala menjadi lebih serius. Dengan menggunakan teknologi terbaru, platform kami memungkinkan pengguna untuk menjalani evaluasi risiko penyakit melalui kuesioner dan alat penilaian kesehatan. Ini sangat penting, karena banyak penyakit dapat diobati lebih efektif jika dideteksi pada tahap awal. Menurut World Health Organization (WHO), hampir 70% kematian akibat penyakit tidak menular di seluruh dunia dapat dicegah dengan intervensi awal yang tepat."
+      title: "Fitur Deteksi Penyakit",
+      description: "Deteksi penyakit dini adalah proses mengenali tanda-tanda awal suatu penyakit sebelum gejala menjadi lebih serius. Dengan menggunakan teknologi terbaru, platform kami memungkinkan pengguna untuk menjalani evaluasi risiko penyakit melalui kuesioner dan alat penilaian kesehatan. Ini sangat penting, karena banyak penyakit dapat diobati lebih efektif jika dideteksi pada tahap awal. Menurut World Health Organization (WHO), hampir 70% kematian akibat penyakit tidak menular di seluruh dunia dapat dicegah dengan intervensi awal yang tepat."
     },
     {
       title: "Rekomendasi Kesehatan Personal",
@@ -18,11 +18,11 @@ const Why = () => {
     },
     {
       title: "Pusat Informasi Kesehatan",
-      description: "Sebagai bagian dari upaya pendidikan, fitur ini memberikan akses ke berbagai informasi tentang penyakit, gejala, dan metode pencegahan. Pengguna dapat mencari tahu lebih lanjut tentang kondisi kesehatan tertentu, tips gaya hidup sehat, serta kebiasaan pencegahan. Hal ini sangat penting untuk meningkatkan kesadaran masyarakat tentang pentingnya kesehatan dan pencegahan penyakit."
+      description: "Sebagai bagian dari upaya edukasi masyarakat, fitur ini memberikan akses ke berbagai informasi tentang penyakit, gejala, dan metode pencegahan. Pengguna dapat mencari tahu lebih lanjut tentang kondisi kesehatan tertentu, tips gaya hidup sehat, serta kebiasaan pencegahan. Hal ini sangat penting untuk meningkatkan kesadaran masyarakat tentang pentingnya kesehatan dan pencegahan penyakit."
     },
     {
-      title: "Pusat Informasi Kesehatan",
-      description: "Sebagai bagian dari upaya pendidikan, fitur ini memberikan akses ke berbagai informasi tentang penyakit, gejala, dan metode pencegahan. Pengguna dapat mencari tahu lebih lanjut tentang kondisi kesehatan tertentu, tips gaya hidup sehat, serta kebiasaan pencegahan. Hal ini sangat penting untuk meningkatkan kesadaran masyarakat tentang pentingnya kesehatan dan pencegahan penyakit."
+      title: "Desain Dinamis dan User-Friendly",
+      description: "Dalam mendorong upaya mewujudkan Indonesia yang sehat, kami menghadirkan desain aplikasi yang user-friendly untuk meningkatkan minat masyarakat untuk aware terhadap kondisi kesehatan mereka. Kami akan memberikan tampilan yang dinamis dan dapat diakses melalui device apapun supaya memudahkan pengguna dalam mengecek kesehatan mereka."
     }
   ];
 

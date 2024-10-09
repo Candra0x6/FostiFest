@@ -35,7 +35,7 @@ const Hero = () => {
 
       <div className="relative z-10 mx-auto max-w-screen-xl px-16 py-32 lg:flex sm:h-screen lg:items-center">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+          <h1 className="bg-gradient-to-r from-blue-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
             Deteksi Dini untuk
             <span className="sm:block mt-4"> Masa Depan Lebih Sehat. </span>
           </h1>

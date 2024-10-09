@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 interface ModalProps {
   open: boolean;
@@ -21,21 +22,21 @@ const Login: React.FC<ModalProps> = ({ open, onClose }) => {
     e.preventDefault();
     const apiEndpoint = isRegistering ? "api/register" : "api/login";
     try {
-      const response = await fetch(apiEndpoint, {
-        method: "POST",
+      const response = await axios.post(apiEndpoint, formData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`${isRegistering ? "Registration" : "Login"} failed`);
       }
 
-      const data = await response.json();
+      const data = response.data;
       console.log(`${isRegistering ? "Registration" : "Login"} successful:`, data);
+
       onClose();
+      window.location.href = "/chat";
     } catch (error) {
       console.error("Error:", error);
     }

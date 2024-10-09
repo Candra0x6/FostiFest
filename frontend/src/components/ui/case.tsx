@@ -36,7 +36,7 @@ const Case = () => {
                 value={item.tick}
                 delay={0}
                 decimalPlaces={0}
-                className="text-transparent font-bold bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 bg-clip-text"
+                className="text-transparent font-bold bg-gradient-to-br from-blue-300 via-blue-500 to-purple-600 bg-clip-text"
               />{" "}
               {item.number}
             </h1>

@@ -11,8 +11,7 @@ const Navbar = () => {
   const menuLinks = [
     { name: "Why", link: "/#why" },
     { name: "Benefit", link: "/#benefit" },
-    { name: "Tutorial", link: "/#tutorial" },
-    { name: "Check", link: "/#form" },
+    { name: "Check", link: "/#demo" },
   ];
 
   useEffect(() => {

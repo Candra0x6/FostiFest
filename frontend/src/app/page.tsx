@@ -4,6 +4,7 @@ import Hero from "@/components/ui/hero";
 import Navbar from "@/components/elements/navbar";
 import Benefit from "@/components/ui/benefit";
 import Why from "@/components/ui/why";
+import Demo from "@/components/ui/demo-feature";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Case />
       <Why />
       <Benefit />
+      <Demo />
     </div>
   );
 }

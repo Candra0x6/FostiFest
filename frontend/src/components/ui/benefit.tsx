@@ -45,7 +45,7 @@ const Benefit = () => {
               >
                 <defs>
                   <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: "#34D399", stopOpacity: 1 }} />
+                    <stop offset="0%" style={{ stopColor: "#93C5FD", stopOpacity: 1 }} />
                     <stop offset="50%" style={{ stopColor: "#3B82F6", stopOpacity: 1 }} />
                     <stop offset="100%" style={{ stopColor: "#A855F7", stopOpacity: 1 }} />
                   </linearGradient>
