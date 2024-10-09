@@ -12,7 +12,21 @@ export class UserService {
     return this.prisma.user.findMany({
       include: {
         history_chat: {
-          include: { detail_chat: { include: { isi_prompt: true } } },
+          include: {
+            detail_chat: {
+              include: {
+                isi_prompt: {
+                  include: {
+                    healthScore: true,
+                    potentialConditions: true,
+                    healthSummary: true,
+                    lifestyleModifications: true,
+                    nutritionalRecommendations: true,
+                  },
+                },
+              },
+            },
+          },
         },
       },
     });
@@ -29,7 +43,28 @@ export class UserService {
           include: {
             detail_chat: {
               include: {
-                isi_prompt: true,
+                isi_prompt: {
+                  include: {
+                    healthScore: {
+                      include: {
+                        bmiAssessment: true,
+                        interpretation: true,
+                      },
+                    },
+                    potentialConditions: true,
+                    healthSummary: true,
+                    lifestyleModifications: {
+                      include: {
+                        implementationPlan: true,
+                      },
+                    },
+                    nutritionalRecommendations: {
+                      include: {
+                        servingGuidelines: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -45,6 +80,45 @@ export class UserService {
       data: {
         username,
         password: hashedPassword,
+      },
+    });
+  }
+
+  // DELETE USER
+  async deleteUser(user_id: string): Promise<User> {
+    return this.prisma.user.delete({
+      where: { user_id },
+      include: {
+        history_chat: {
+          include: {
+            detail_chat: {
+              include: {
+                isi_prompt: {
+                  include: {
+                    healthScore: {
+                      include: {
+                        bmiAssessment: true,
+                        interpretation: true,
+                      },
+                    },
+                    potentialConditions: true,
+                    healthSummary: true,
+                    lifestyleModifications: {
+                      include: {
+                        implementationPlan: true,
+                      },
+                    },
+                    nutritionalRecommendations: {
+                      include: {
+                        servingGuidelines: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
   }
