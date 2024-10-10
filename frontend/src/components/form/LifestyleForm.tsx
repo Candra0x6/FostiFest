@@ -80,7 +80,7 @@ export const LifestyleForm: React.FC<Props> = (props) => {
   });
 
   const onSubmit = async (data: any) => {
-    updateUserLifestyle({ KebiasaanHidup: data });
+    updateUserLifestyle({ lifestyleFactors: data });
     props.onClick();
   };
 

@@ -41,7 +41,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
   });
 
   const onSubmit = async (data: any) => {
-    updateUserDetails({ DataDiri: data });
+    updateUserDetails({ personalData: data });
     props.onClick();
   };
 

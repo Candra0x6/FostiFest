@@ -1,23 +1,11 @@
 "use client";
 import SickPredection from "@/components/feature/SickPredection";
-import { predictDiseaseWithAI } from "@/services/disease-prediction-ai-service";
 
 export default function ChatPage() {
-  const handleAnlyzRecy = async () => {
-    try {
-      const response = await predictDiseaseWithAI();
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
   return (
     <div className="mx-auto max-w-screen-sm ">
       <div className="flex flex-col items-center">
-        <h1
-          onClick={handleAnlyzRecy}
-          className="text-5xl text-center mt-5 font-bold text-primary"
-        >
+        <h1 className="text-5xl text-center mt-5 font-bold text-primary">
           Doc-eAI
         </h1>
         <span className="text-accent text-lg">

@@ -1,5 +1,8 @@
 "use server"
 import { model } from "@/lib/utils";
+import { demographicsPayload } from "@/lib/validators/demographicsSchema";
+import { lifestylePayload } from "@/lib/validators/lifestyleSchema";
+import { UserMedicalHistory } from "@/store/user-health-store";
 
 // Define interfaces for the health analysis structure
 interface HealthAnalysis {
@@ -54,7 +57,7 @@ interface HealthAnalysis {
   };
 }
 
-interface GenerateContentResponse {
+export interface GenerateContentResponse {
   success: boolean;
   analysis?: HealthAnalysis;
   error?: string;
@@ -177,34 +180,37 @@ function validateHealthSummary(summary: any): HealthAnalysis['healthSummary'] {
   };
 }
 
-export async function predictDiseaseWithAI(): Promise<GenerateContentResponse> {
+interface Props {
+  medicalHistory : UserMedicalHistory | null
+  personalData : demographicsPayload | null
+  lifestyleFactors : lifestylePayload | null
+}
+
+
+export async function predictDiseaseWithAI(props : Props): Promise<GenerateContentResponse> {
   try {
     const prompt = `
   You are a medical analysis system that MUST ONLY respond with a valid JSON object. DO NOT include any explanations, comments, or additional text outside the JSON structure.
 
-IMPORTANT: 
+IMPORTANT RESPONSE RULES: 
 - Return ONLY the JSON object
 - DO NOT use markdown code blocks
 - DO NOT add explanations before or after the JSON
 - DO NOT include the word "json" or any other text
+- ALL responses MUST be in Bahasa Indonesia
+- Use Indonesian medical terms and descriptions
 - Ensure all JSON values are properly formatted and enclosed in quotes when needed
+- You MUST provide EXACTLY 3 items in potentialConditions array
+- You MUST provide EXACTLY 3 items in lifestyleModifications array
+- You MUST provide EXACTLY 6 items in nutritionalRecommendations array
 
 Analyze this health data and return a single JSON object:
 
 {
-  "symptoms": ["demam", "pusing", "mual", "nyeriSendi"],
-  "personalData": {
-    "weight": "20",
-    "gender": "Laki-Laki",
-    "height": "20",
-    "age": "20"
-  },
-  "lifestyleFactors": {
-    "physicalActivity": "Sangat Jarang",
-    "smokingStatus": "Tidak Merokok",
-    "alcoholConsumption": "Tidak Pernah",
-    "dietaryPattern": "Seimbang"
-  }
+  ${props.medicalHistory},
+  ${props.personalData}
+  ${props.lifestyleFactors}
+  
 }
 
 Required response structure (MUST FOLLOW EXACTLY):
@@ -222,6 +228,8 @@ Required response structure (MUST FOLLOW EXACTLY):
     }
   },
   "potentialConditions": [
+        // EXACTLY 3 ITEMS REQUIRED
+
     {
       "name": <string>,
       "probability": <number 0-1>,
@@ -232,6 +240,7 @@ Required response structure (MUST FOLLOW EXACTLY):
     }
   ],
   "lifestyleModifications": [
+        // EXACTLY 3 ITEMS REQUIRED
     {
       "activity": <string>,
       "impactFactor": <number 0-1>,
@@ -245,6 +254,8 @@ Required response structure (MUST FOLLOW EXACTLY):
     }
   ],
   "nutritionalRecommendations": [
+        // EXACTLY 6 ITEMS REQUIRED
+
     {
       "food": <string>,
       "benefits": <string>,
@@ -266,28 +277,32 @@ Required response structure (MUST FOLLOW EXACTLY):
   }
 }
 
-Requirements:
-1. Include Indonesian context
-2. Make recommendations culturally appropriate
-3. Consider local healthcare access
-4. Base all predictions on provided symptoms and data
-5. Ensure all number values are actual numbers, not strings
-6. Arrays must be properly formatted with square brackets
-7. All string values must be enclosed in double quotes`
+STRICT REQUIREMENTS:
+1. potentialConditions MUST contain EXACTLY 3 different conditions, ordered by probability (highest first)
+2. lifestyleModifications MUST contain EXACTLY 3 different activities, ordered by impactFactor (highest first)
+3. nutritionalRecommendations MUST contain EXACTLY 6 different food recommendations, ordered as follows:
+   - First 2: High-protein foods for malnutrition
+   - Next 2: Vitamin and mineral-rich foods for immune support
+   - Last 2: Foods that help with symptom management
+4. Include Indonesian context and locally available foods
+5. Use Indonesian medical terminology and culturally appropriate recommendations
+6. Consider local Indonesian healthcare access and resources
+7. Base all predictions on provided symptoms and data
+8. Ensure all number values are actual numbers, not strings
+9. Arrays must be properly formatted with square brackets
+10. All string values must be enclosed in double quotes
+11. Severity levels must be exactly "low", "medium", or "high"
+12. Medical attention levels must be exactly "monitoring", "consult", or "immediate"
+`
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let generatedText = response.text();
-
-    console.log("Raw generated content:", generatedText);
-
     // Clean up the response text to ensure it's valid JSON
     generatedText = generatedText.replace(/```json\s*|\s*```/g, '');
     generatedText = generatedText.trim();
 
     try {
-      const jsonResult = JSON.parse(generatedText);
-      console.log("Parsed JSON result:", JSON.stringify(jsonResult, null, 2));
-      
+      const jsonResult = JSON.parse(generatedText);      
       // Validate and sanitize the JSON structure
       const sanitizedResult = sanitizeHealthAnalysis(jsonResult);
 

@@ -16,6 +16,13 @@ import {
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { useUserHealthStore } from "@/store/user-health-store";
+import {
+  GenerateContentResponse,
+  predictDiseaseWithAI,
+} from "@/services/disease-prediction-ai-service";
+import { HealthAnalysis } from "@/types/HealthPredictAI";
+import { demographicsPayload } from "@/lib/validators/demographicsSchema";
+import { lifestylePayload } from "@/lib/validators/lifestyleSchema";
 
 interface Props {
   onClick: () => void;
@@ -39,10 +46,14 @@ const FormSchema = z.object({
 });
 
 export const MedicalHistoryFormCheckbox: React.FC<Props> = (props) => {
-  const { updateMedicalHistory } = useUserHealthStore();
+  const { updateMedicalHistory, updateGenerateContentResponse } =
+    useUserHealthStore();
+  const { userDetails, medicalHistory, userLifestyle } = useUserHealthStore();
+
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -50,8 +61,21 @@ export const MedicalHistoryFormCheckbox: React.FC<Props> = (props) => {
     },
   });
 
+  const predictDisease = async () => {
+    try {
+      const response = await predictDiseaseWithAI({
+        personalData: userDetails?.personalData as demographicsPayload,
+        medicalHistory,
+        lifestyleFactors: userLifestyle?.lifestyleFactors as lifestylePayload,
+      });
+      updateGenerateContentResponse(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   function onSubmit(data: z.infer<typeof FormSchema>) {
     updateMedicalHistory(data.items);
+    predictDisease();
     props.onClick();
   }
 
@@ -62,60 +86,62 @@ export const MedicalHistoryFormCheckbox: React.FC<Props> = (props) => {
           control={form.control}
           name="items"
           render={({ field }) => (
-            <FormItem className="w-full gap-4">
+            <FormItem className="w-full">
               <AnimatePresence>
-                {items.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                  >
-                    <FormItem className="flex border-2 py-2 px-4 rounded-lg">
-                      <div className="flex items-center space-x-2 w-full">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              const updatedItems = checked
-                                ? [...field.value, item.id]
-                                : field.value.filter(
-                                    (value) => value !== item.id
-                                  );
-                              form.setValue("items", updatedItems);
-                              setCheckedItems((prev) => ({
-                                ...prev,
-                                [item.id]: !!checked,
-                              }));
-                            }}
-                            className="peer h-6 w-6 shrink-0 rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-gray-200 data-[state=checked]:bg-primary"
+                <div className="grid grid-cols-2 gap-4">
+                  {items.map((item, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <FormItem className="flex border-2 py-2 px-4 rounded-lg">
+                        <div className="flex items-center space-x-2 w-full">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                const updatedItems = checked
+                                  ? [...field.value, item.id]
+                                  : field.value.filter(
+                                      (value) => value !== item.id
+                                    );
+                                form.setValue("items", updatedItems);
+                                setCheckedItems((prev) => ({
+                                  ...prev,
+                                  [item.id]: !!checked,
+                                }));
+                              }}
+                              className="peer h-6 w-6 shrink-0 rounded-sm border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-gray-200 data-[state=checked]:bg-primary"
+                            >
+                              <motion.div
+                                className="h-5 w-5 rounded-sm bg-white shadow-sm"
+                                initial={false}
+                                animate={{
+                                  x: checkedItems[item.id] ? 16 : 0,
+                                  scale: checkedItems[item.id] ? 0.8 : 1,
+                                }}
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 500,
+                                  damping: 30,
+                                }}
+                              />
+                            </Checkbox>
+                          </FormControl>
+                          <Label
+                            htmlFor={`ios-checkbox-${item.label}`}
+                            className="flex-grow"
                           >
-                            <motion.div
-                              className="h-5 w-5 rounded-full bg-white shadow-sm"
-                              initial={false}
-                              animate={{
-                                x: checkedItems[item.id] ? 16 : 0,
-                                scale: checkedItems[item.id] ? 0.8 : 1,
-                              }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 500,
-                                damping: 30,
-                              }}
-                            />
-                          </Checkbox>
-                        </FormControl>
-                        <Label
-                          htmlFor={`ios-checkbox-${item.label}`}
-                          className="flex-grow"
-                        >
-                          {item.label}
-                        </Label>
-                      </div>
-                    </FormItem>
-                  </motion.div>
-                ))}
+                            {item.label}
+                          </Label>
+                        </div>
+                      </FormItem>
+                    </motion.div>
+                  ))}
+                </div>
               </AnimatePresence>
               <FormMessage />
             </FormItem>
