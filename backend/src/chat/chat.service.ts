@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { DataFE, UserWithChats } from 'src/db.type';
-import { User } from '@prisma/client';
+import { DataFE, TGetChat, UserWithChats } from 'src/db.type';
+import { Chat, KebiasaanHidup, User } from '@prisma/client';
 
 @Injectable()
 export class ChatService {
@@ -15,6 +15,7 @@ export class ChatService {
       include: {
         history_chat: {
           include: {
+            kebiasaan_hidup: true,
             detail_chat: {
               include: {
                 isi_prompt: true,
@@ -31,6 +32,14 @@ export class ChatService {
             riwayat_penyakit: data.riwayat_penyakit,
             tinggi_badan: data.tinggi_badan,
             umur: data.umur,
+            kebiasaan_hidup: {
+              create: {
+                aktivitas_fisik: data.kebiasaan_hidup.aktivitas_fisik,
+                kebiasaan_merokok: data.kebiasaan_hidup.kebiasaan_merokok,
+                konsumsi_alkohol: data.kebiasaan_hidup.konsumsi_alkohol,
+                pola_konsumsi: data.kebiasaan_hidup.pola_konsumsi,
+              },
+            },
             detail_chat: {
               create: {
                 isi_prompt: {
@@ -86,7 +95,7 @@ export class ChatService {
                       ),
                     },
                     nutritionalRecommendations: {
-                      create: data?.nutritionalRecommendation?.map(
+                      create: data?.nutritionalRecommendations?.map(
                         (recommendation) => ({
                           food: recommendation.food,
                           benefits: recommendation.benefits,
@@ -118,6 +127,28 @@ export class ChatService {
                     },
                   },
                 },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async getChatById(chat_id: string): Promise<TGetChat> {
+    return this.prisma.chat.findUnique({
+      where: { chat_id },
+      include: {
+        kebiasaan_hidup: true,
+        detail_chat: {
+          include: {
+            isi_prompt: {
+              include: {
+                healthScore: true,
+                potentialConditions: true,
+                healthSummary: true,
+                lifestyleModifications: true,
+                nutritionalRecommendations: true,
               },
             },
           },

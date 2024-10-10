@@ -9,6 +9,7 @@ import {
   PotentialCondition,
   ServingGuidelines,
   User,
+  KebiasaanHidup,
 } from '@prisma/client';
 
 type BMIAssessment = {
@@ -16,8 +17,11 @@ type BMIAssessment = {
   bmiValue: number;
   category: string;
   healthImplication: string;
-}
+};
+
 export type DataFE = Chat & {
+  kebiasaan_hidup: KebiasaanHidup;
+} & {
   healthScore: HealthScore & {
     interpretation: Interpretation;
     bmiAssessment: BMIAssessment;
@@ -26,7 +30,7 @@ export type DataFE = Chat & {
   lifestyleModifications: (LifestyleModification & {
     implementationPlan: ImplementationPlan;
   })[];
-  nutritionalRecommendation: (NutritionalRecommendation & {
+  nutritionalRecommendations: (NutritionalRecommendation & {
     servingGuidelines: ServingGuidelines;
   })[];
   healthSummary: HealthSummary;
@@ -34,4 +38,8 @@ export type DataFE = Chat & {
 
 export type UserWithChats = User & {
   history_chat: DataFE;
+};
+
+export type TGetChat = Chat & {
+  kebiasaan_hidup: KebiasaanHidup;
 };

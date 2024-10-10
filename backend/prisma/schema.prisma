@@ -42,11 +42,54 @@ model Chat {
   tinggi_badan     Float
   jenis_kelamin    JenisKelamin
   riwayat_penyakit RiwayatPenyakit[]
+  kebiasaan_hidup  KebiasaanHidup?
   detail_chat      PromptHistory?
 
   // relation 1-m UserChat
   author User   @relation(fields: [chatID], references: [user_id], onDelete: Cascade)
   chatID String
+}
+
+model KebiasaanHidup {
+  id                String           @id @default(cuid())
+  aktivitas_fisik   AktivitasFisik
+  kebiasaan_merokok KebiasaanMerokok
+  konsumsi_alkohol  KonsumsiAlkohol
+  pola_konsumsi     PolaKonsumsi
+
+  from_chat Chat   @relation(fields: [chat_ID], references: [chat_id], onDelete: Cascade)
+  chat_ID   String @unique
+}
+
+enum PolaKonsumsi {
+  Seimbang
+  Vegetarian
+  Vegan
+  Tinggi_Protein
+  Tinggi_Karbohidrat
+  Rendah_Lemak
+  Keto
+  Bebas_Gluten
+  Tidak_Ada_Diet_Khusus
+}
+
+enum KonsumsiAlkohol {
+  Tidak_Pernah
+  Kadang_Kadang
+  Sering
+}
+
+enum KebiasaanMerokok {
+  Tidak_Merokok
+  Mantan_Perokok
+  Perokok_Aktif
+}
+
+enum AktivitasFisik {
+  Sangat_Jarang
+  Jarang
+  Sedang
+  Rutin
 }
 
 enum JenisKelamin {

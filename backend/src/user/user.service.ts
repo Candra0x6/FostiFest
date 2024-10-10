@@ -13,6 +13,7 @@ export class UserService {
       include: {
         history_chat: {
           include: {
+            kebiasaan_hidup: true,
             detail_chat: {
               include: {
                 isi_prompt: {
@@ -41,6 +42,7 @@ export class UserService {
       include: {
         history_chat: {
           include: {
+            kebiasaan_hidup: true,
             detail_chat: {
               include: {
                 isi_prompt: {
