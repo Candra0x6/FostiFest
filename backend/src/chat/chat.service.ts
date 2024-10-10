@@ -7,8 +7,6 @@ import { Chat, KebiasaanHidup, User } from '@prisma/client';
 export class ChatService {
   constructor(private prisma: PrismaService) {}
 
-  // POST USER WITH CHAT
-  // ISO
   async createChat(user_id: string, data: DataFE): Promise<User> {
     return await this.prisma.user.update({
       where: { user_id },
