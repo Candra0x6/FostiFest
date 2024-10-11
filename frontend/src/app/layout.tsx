@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { useCookies } from "./useCookies";
+import { decrypt } from "@/lib/decrypt";
+import { cookies } from "next/headers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,6 +27,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const decryptSession = async () => {
+    const session = cookies().get("session");
+    if (session) {
+      const payload = await decrypt(session.value);
+    }
+  };
+  decryptSession();
   return (
     <html lang="en">
       <body

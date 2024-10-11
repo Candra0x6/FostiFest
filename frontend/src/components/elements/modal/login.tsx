@@ -1,5 +1,9 @@
+import { newSession } from "@/app/useSession";
+import { encrypt } from "@/app/encypt";
 import axios from "axios";
+import { cookies } from "next/headers";
 import React, { useState } from "react";
+import { useCookies } from "@/app/useCookies";
 
 interface ModalProps {
   open: boolean;
@@ -21,8 +25,8 @@ const Login: React.FC<ModalProps> = ({ open, onClose }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const url = "http://localhost:3000/api/user/";
-    
+    const url = "http://localhost:5000/api/user";
+
     if (isRegistering) {
       try {
         const response = await axios.post(url, formData, {
@@ -31,28 +35,46 @@ const Login: React.FC<ModalProps> = ({ open, onClose }) => {
           },
         });
 
-        if (response.status !== 200) {
+        const encryptedSession = async () => {
+          await encrypt(response.data, "session");
+        };
+
+        if (response.status !== 201) {
           throw new Error("Registrasi failed");
+        } else {
+          encryptedSession();
         }
 
         window.alert("Registrasi berhasil! Silakan login");
+        setFormData({
+          username: "",
+          password: "",
+        });
       } catch (error) {
         console.error("Error:", error);
         window.alert("Registrasi gagal!");
       }
     } else {
       try {
-        const response = await axios.get(url);
-        if (response.status !== 200) {
+        const response = await axios.post(
+          "http://localhost:5000/api/login",
+          formData
+        );
+        if (response.status !== 201) {
           throw new Error("Login failed");
         }
         const users = response.data;
-        const user = users.find((u: { username: string; password: string }) => 
-          u.username === formData.username && u.password === formData.password
+        const user = users.find(
+          (u: { username: string; password: string }) =>
+            u.username === formData.username && u.password === formData.password
         );
         if (user) {
           window.alert("Login berhasil!");
           window.location.href = "/chat";
+          setFormData({
+            username: "",
+            password: "",
+          });
         } else {
           window.alert("Username dan password tidak cocok");
         }
