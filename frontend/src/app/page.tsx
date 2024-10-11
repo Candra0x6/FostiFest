@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-"use server";
-export default async function Home() {
-  return <div className="">sigma</div>;
-=======
 "use client";
 import Case from "@/components/ui/case";
 import Hero from "@/components/ui/hero";
@@ -25,5 +20,4 @@ export default function Home() {
       {/* <Footer /> */}
     </div>
   );
->>>>>>> d149588d922dea26a13b7d5f17828210c5b35b5c
 }
