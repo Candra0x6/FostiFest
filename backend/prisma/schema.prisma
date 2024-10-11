@@ -186,7 +186,7 @@ model PotentialCondition {
 model LifestyleModification {
   id               Int      @id @default(autoincrement())
   activity         String
-  impactFactor     Int
+  impactFactor     Float
   targetConditions String[] // Stored as a Postgres Array
 
   implementationPlan   ImplementationPlan @relation(fields: [implementationPlanId], references: [id], onDelete: Cascade)

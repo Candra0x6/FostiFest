@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { DataFE, TGetChat, UserWithChats } from 'src/db.type';
 import { Chat, KebiasaanHidup, User } from '@prisma/client';
 
@@ -50,7 +50,7 @@ export class ChatService {
                             bmiValue: data.healthScore.bmiAssessment.bmiValue,
                             category: data.healthScore.bmiAssessment.category,
                             healthImplications:
-                              data.healthScore.bmiAssessment.healthImplication,
+                              data.healthScore.bmiAssessment.healthImplications,
                           },
                         },
                         interpretation: {
@@ -142,11 +142,24 @@ export class ChatService {
           include: {
             isi_prompt: {
               include: {
-                healthScore: true,
+                healthScore: {
+                  include: {
+                    bmiAssessment: true,
+                    interpretation: true,
+                  },
+                },
                 potentialConditions: true,
                 healthSummary: true,
-                lifestyleModifications: true,
-                nutritionalRecommendations: true,
+                lifestyleModifications: {
+                  include: {
+                    implementationPlan: true,
+                  },
+                },
+                nutritionalRecommendations: {
+                  include: {
+                    servingGuidelines: true,
+                  },
+                },
               },
             },
           },

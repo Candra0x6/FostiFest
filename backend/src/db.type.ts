@@ -16,7 +16,7 @@ type BMIAssessment = {
   id: number;
   bmiValue: number;
   category: string;
-  healthImplication: string;
+  healthImplications: string;
 };
 
 export type DataFE = Chat & {
