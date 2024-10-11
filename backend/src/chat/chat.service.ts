@@ -142,11 +142,24 @@ export class ChatService {
           include: {
             isi_prompt: {
               include: {
-                healthScore: true,
+                healthScore: {
+                  include: {
+                    bmiAssessment: true,
+                    interpretation: true,
+                  },
+                },
                 potentialConditions: true,
                 healthSummary: true,
-                lifestyleModifications: true,
-                nutritionalRecommendations: true,
+                lifestyleModifications: {
+                  include: {
+                    implementationPlan: true,
+                  },
+                },
+                nutritionalRecommendations: {
+                  include: {
+                    servingGuidelines: true,
+                  },
+                },
               },
             },
           },
