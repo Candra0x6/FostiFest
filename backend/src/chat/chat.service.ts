@@ -50,7 +50,7 @@ export class ChatService {
                             bmiValue: data.healthScore.bmiAssessment.bmiValue,
                             category: data.healthScore.bmiAssessment.category,
                             healthImplications:
-                              data.healthScore.bmiAssessment.healthImplication,
+                              data.healthScore.bmiAssessment.healthImplications,
                           },
                         },
                         interpretation: {
