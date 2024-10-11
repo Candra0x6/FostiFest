@@ -12,7 +12,7 @@ async function bootstrap() {
   );
   app.enableCors({
     origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   }); // Enable CORS
   const port = process.env.PORT || 3000;
   await app.listen(port, '0.0.0.0');
