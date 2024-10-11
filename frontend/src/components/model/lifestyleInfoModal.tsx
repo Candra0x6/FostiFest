@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -42,7 +43,7 @@ function LifestyleInfoModal({ children, data }: Props) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{data.activity}</DialogTitle>
+          <DialogTitle>{data?.activity}</DialogTitle>
         </DialogHeader>
         <DialogContent>
           <motion.div
@@ -53,7 +54,7 @@ function LifestyleInfoModal({ children, data }: Props) {
           >
             {/* Vital Signs */}
             <div className="p-4">
-              <h3 className="text-lg font-semibold mb-4">{data.activity}</h3>
+              <h3 className="text-lg font-semibold mb-4">{data?.activity}</h3>
 
               <div className="grid grid-cols-2 gap-4">
                 <VitalSign
@@ -62,14 +63,16 @@ function LifestyleInfoModal({ children, data }: Props) {
                   }
                   label="Intensitas Tindakan"
                   value={
-                    data.implementationPlan.intensity.charAt(0).toUpperCase() +
-                    data.implementationPlan.intensity.slice(1)
+                    data?.implementationPlan?.intensity
+                      .charAt(0)
+                      .toUpperCase() +
+                    data?.implementationPlan?.intensity.slice(1)
                   }
                 />
                 <VitalSign
                   icon={<PercentCircle className="w-6 h-6 text-orange-500" />}
                   label="Presentase Kemungkinan"
-                  value={(data.impactFactor * 100).toFixed(2)}
+                  value={(data?.impactFactor * 100).toFixed(2)}
                   unit="%"
                 />
                 <VitalSign
@@ -78,16 +81,18 @@ function LifestyleInfoModal({ children, data }: Props) {
                   }
                   label="Durasi Tindakan"
                   value={
-                    data.implementationPlan.duration.charAt(0).toUpperCase() +
-                    data.implementationPlan.duration.slice(1)
+                    data?.implementationPlan?.duration.charAt(0).toUpperCase() +
+                    data?.implementationPlan?.duration.slice(1)
                   }
                 />
                 <VitalSign
                   icon={<FaRegCalendarAlt className="w-6 h-6 text-blue-300" />}
                   label="Frekuensi Tindakan"
                   value={
-                    data.implementationPlan.frequency.charAt(0).toUpperCase() +
-                    data.implementationPlan.frequency.slice(1)
+                    data?.implementationPlan?.frequency
+                      .charAt(0)
+                      .toUpperCase() +
+                    data?.implementationPlan?.frequency.slice(1)
                   }
                 />
               </div>
@@ -105,7 +110,7 @@ function LifestyleInfoModal({ children, data }: Props) {
                   Additional Information
                 </h3>
                 <p className="text-gray-600">
-                  {data.implementationPlan.precautions.map((item) => item)}
+                  {data?.implementationPlan?.precautions.map((item) => item)}
                 </p>
               </div>
             </motion.div>

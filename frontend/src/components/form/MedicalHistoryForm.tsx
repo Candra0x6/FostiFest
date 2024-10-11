@@ -20,8 +20,6 @@ import {
   GenerateContentResponse,
   predictDiseaseWithAI,
 } from "@/services/disease-prediction-ai-service";
-import { HealthAnalysis } from "@/types/HealthPredictAI";
-import { demographicsPayload } from "@/lib/validators/demographicsSchema";
 import { lifestylePayload } from "@/lib/validators/lifestyleSchema";
 
 interface Props {
@@ -29,27 +27,34 @@ interface Props {
 }
 
 const items = [
-  { id: "demam", label: "Demam" },
-  { id: "batuk", label: "Batuk" },
-  { id: "sakitKepala", label: "Sakit Kepala" },
-  { id: "pusing", label: "Pusing" },
-  { id: "mual", label: "Mual" },
-  { id: "lemas", label: "Lemas" },
-  { id: "nyeriSendi", label: "Nyeri Sendi" },
-  { id: "pilek", label: "Pilek" },
+  { id: "Obesitas", label: "Obesitas" },
+  { id: "Asma", label: "Asma" },
+  { id: "Maag", label: "Maag" },
+  { id: "Migrain", label: "Migrain" },
+  { id: "Hipertensi", label: "Hipertensi" },
+  { id: "Kolesterol", label: "Kolesterol" },
+  { id: "Anemia", label: "Anemia" },
+  { id: "Vertigo", label: "Vertigo" },
+  { id: "Asam_urat", label: "Asam Urat" },
+  { id: "Diabetes", label: "Diabetes" },
+  { id: "Diare", label: "Diare" },
+  { id: "Diabetes_Melitus", label: "Diabetes Melitus" },
 ] as const;
 
 const FormSchema = z.object({
   items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+    message: "Anda harus memilih minimal satu",
   }),
 });
 
 export const MedicalHistoryFormCheckbox: React.FC<Props> = (props) => {
-  const { updateMedicalHistory, updateGenerateContentResponse } =
-    useUserHealthStore();
-  const { userDetails, medicalHistory, userLifestyle } = useUserHealthStore();
-
+  const {
+    updateMedicalHistory,
+    updateGenerateContentResponse,
+    userDetails,
+    medicalHistory,
+    userLifestyle,
+  } = useUserHealthStore();
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
@@ -57,22 +62,23 @@ export const MedicalHistoryFormCheckbox: React.FC<Props> = (props) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      items: ["demam"],
+      items: [],
     },
   });
 
   const predictDisease = async () => {
     try {
       const response = await predictDiseaseWithAI({
-        personalData: userDetails?.personalData as demographicsPayload,
+        personalData: userDetails,
         medicalHistory,
-        lifestyleFactors: userLifestyle?.lifestyleFactors as lifestylePayload,
+        lifestyleFactors: userLifestyle?.kebiasaan_hidup as lifestylePayload,
       });
       updateGenerateContentResponse(response);
     } catch (err) {
       console.error(err);
     }
   };
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     updateMedicalHistory(data.items);
     predictDisease();

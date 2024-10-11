@@ -3,16 +3,14 @@ import { lifestylePayload } from '@/lib/validators/lifestyleSchema';
 import { GenerateContentResponse } from '@/services/disease-prediction-ai-service';
 import { create } from 'zustand';
 
-export interface UserDetails {
-   personalData: demographicsPayload
-}
+export interface UserDetails extends demographicsPayload{}
 
 interface UserLifestyle {
-    lifestyleFactors: lifestylePayload
+    kebiasaan_hidup: lifestylePayload
 }
 
 export interface UserMedicalHistory {
-    medicalHistory: string[]
+    riwayat_penyakit: string[]
 }
 interface UserStore {
     userDetails: UserDetails | null;
@@ -20,7 +18,7 @@ interface UserStore {
     medicalHistory: UserMedicalHistory | null
     generateContentResponse: GenerateContentResponse | null;
     updateUserDetails: (details: UserDetails) => void;
-    updateUserLifestyle: (lifestyle: UserLifestyle) => void;
+    updateUserLifestyle: (lifestyle: lifestylePayload) => void;
     updateMedicalHistory: (history: string[]) => void;
     updateGenerateContentResponse: (response: GenerateContentResponse) => void;
 }
@@ -32,6 +30,6 @@ export const useUserHealthStore = create<UserStore>((set) => ({
     generateContentResponse: null,
     updateGenerateContentResponse: (response) => set(() => ({ generateContentResponse: response })),
     updateUserDetails: (details) => set(() => ({ userDetails: details })),
-    updateUserLifestyle: (lifestyle) => set(() => ({ userLifestyle: lifestyle })),
-    updateMedicalHistory: (history) => set(() => ({ medicalHistory: { medicalHistory: history } })),
+    updateUserLifestyle: (lifestyle) => set(() => ({ userLifestyle: {kebiasaan_hidup : lifestyle} })),
+    updateMedicalHistory: (history) => set(() => ({ medicalHistory: { riwayat_penyakit: history } })),
 }));

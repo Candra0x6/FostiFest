@@ -16,30 +16,35 @@ const decimalString = z
   });
 
 export const demographicsSchema = z.object({
-  beratBadan: decimalString
+  berat_badan: decimalString
     .refine((value) => Number(value) > 0, {
       message: "Berat Badan harus lebih besar dari 0",
     })
     .refine((value) => Number(value) < 200, {
       message: "Berat Badan harus lebih kecil dari 200",
     }),
-  tinggiBadan: decimalString
+  tinggi_badan: decimalString
     .refine((value) => Number(value) > 0, {
       message: "Tinggi Badan harus lebih besar dari 0",
     })
     .refine((value) => Number(value) < 500, {
       message: "Tinggi Badan harus lebih kecil dari 500",
     }),
-  usia: decimalString
+  umur: decimalString
     .refine((value) => Number(value) > 0, {
       message: "Usia harus lebih besar dari 0",
     })
     .refine((value) => Number(value) < 200, {
       message: "Usia harus lebih kecil dari 200",
     }),
-    jenisKelamin: z.string()
+    jenis_kelamin: z.string()
 });
 
 
 
-export type demographicsPayload = z.infer<typeof demographicsSchema>;
+export type demographicsPayload = {
+  berat_badan: number;
+  tinggi_badan: number;
+  umur: number;
+  jenis_kelamin: string;
+}

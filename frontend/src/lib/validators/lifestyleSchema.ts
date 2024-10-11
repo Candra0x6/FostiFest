@@ -1,24 +1,24 @@
 import { z } from "zod";
 
 export const lifestyleSchema = z.object({
-    kebiasaanMerokok: z.enum([
-      "Tidak Merokok",
-      "Mantan Perokok",
-      "Perokok Aktif",
+    kebiasaan_merokok: z.enum([
+      "Tidak_Merokok",
+      "Mantan_Perokok",
+      "Perokok_Aktif",
     ]),
-    konsumsiAlkohol: z.enum(["Tidak Pernah", "Kadang-kadang", "Sering"]),
-    polaKonsumsi: z.enum([
+    konsumsi_alkohol: z.enum(["Tidak_Pernah", "Kadang_Kadang", "Sering"]),
+    pola_konsumsi: z.enum([
       "Seimbang",
       "Vegetarian",
       "Vegan",
-      "Tinggi Protein",
-      "Tinggi Karbohidrat",
-      "Rendah Lemak",
+      "Tinggi_Protein",
+      "Tinggi_Karbohidrat",
+      "Rendah_Lemak",
       "Keto",
-      "Bebas Gluten",
-      "Tidak Ada Diet Khusus",
+      "Bebas_Gluten",
+      "Tidak_Ada_Diet_Khusus",
     ]),
-    aktivitasFisik: z.enum(["Sangat Jarang", "Jarang", "Sedang", "Rutin"]),
+    aktivitas_fisik: z.enum(["Sangat_Jarang", "Jarang", "Sedang", "Rutin"]),
   });
 
   export type lifestylePayload = z.infer<typeof lifestyleSchema>;

@@ -25,41 +25,59 @@ import {
 } from "../ui/select";
 import { lifestyleSchema } from "@/lib/validators/lifestyleSchema";
 import { useUserHealthStore } from "@/store/user-health-store";
-
-const section = [
+type sectionType = {
+  name: string;
+  label: string;
+  type: string;
+  options: { id: string; value: string }[];
+};
+const section: sectionType[] = [
   {
-    name: "kebiasaanMerokok",
+    name: "kebiasaan_merokok",
     label: "Kebiasaan Merokok",
     type: "select",
-    options: ["Tidak Merokok", "Mantan Perokok", "Perokok Aktif"],
-  },
-  {
-    name: "konsumsiAlkohol",
-    label: "Konsumsi Alkohol",
-    type: "select",
-    options: ["Tidak Pernah", "Kadang-kadang", "Sering"],
-  },
-  {
-    name: "polaKonsumsi",
-    label: "Pola Konsumsi",
-    type: "select",
     options: [
-      "Seimbang",
-      "Vegetarian",
-      "Vegan",
-      "Tinggi Protein",
-      "Tinggi Karbohidrat",
-      "Rendah Lemak",
-      "Keto",
-      "Bebas Gluten",
-      "Tidak Ada Diet Khusus",
+      { id: "Tidak Merokok", value: "Tidak_Merokok" },
+      { id: "Mantan Perokok", value: "Mantan_Perokok" },
+      { id: "Perokok Aktif", value: "Perokok_Aktif" },
     ],
   },
   {
-    name: "aktivitasFisik",
+    name: "konsumsi_alkohol",
+    label: "Konsumsi Alkohol",
+    type: "select",
+    options: [
+      { id: "Tidak Pernah", value: "Tidak_Pernah" },
+      { id: "Kadang-kadang", value: "Kadang_Kadang" },
+      { id: "Sering", value: "Sering" },
+    ],
+  },
+  {
+    name: "pola_konsumsi",
+    label: "Pola Konsumsi",
+    type: "select",
+    options: [
+      { id: "Seimbang", value: "Seimbang" },
+      { id: "Vegetarian", value: "Vegetarian" },
+      { id: "Vegan", value: "Vegan" },
+      { id: "Tinggi Protein", value: "Tinggi_Protein" },
+      { id: "Tinggi Karbohidrat", value: "Tinggi_Karbohidrat" },
+      { id: "Rendah Lemak", value: "Rendah_Lemak" },
+      { id: "Keto", value: "Keto" },
+      { id: "Bebas Gluten", value: "Bebas_Gluten" },
+      { id: "Tidak Ada Diet Khusus", value: "Tidak_Ada_Diet_Khusus" },
+    ],
+  },
+  {
+    name: "aktivitas_fisik",
     label: "Aktivitas Fisik",
     type: "select",
-    options: ["Sangat Jarang", "Jarang", "Sedang", "Rutin"],
+    options: [
+      { id: "Sangat Jarang", value: "Sangat_Jarang" },
+      { id: "Jarang", value: "Jarang" },
+      { id: "Sedang", value: "Sedang" },
+      { id: "Rutin", value: "Rutin" },
+    ],
   },
 ];
 
@@ -72,15 +90,15 @@ export const LifestyleForm: React.FC<Props> = (props) => {
   const form = useForm<z.infer<typeof lifestyleSchema>>({
     resolver: zodResolver(lifestyleSchema),
     defaultValues: {
-      kebiasaanMerokok: "Tidak Merokok",
-      konsumsiAlkohol: "Tidak Pernah",
-      polaKonsumsi: "Seimbang",
-      aktivitasFisik: "Sangat Jarang",
+      kebiasaan_merokok: "Tidak_Merokok",
+      konsumsi_alkohol: "Tidak_Pernah",
+      pola_konsumsi: "Seimbang",
+      aktivitas_fisik: "Sedang",
     },
   });
 
   const onSubmit = async (data: any) => {
-    updateUserLifestyle({ lifestyleFactors: data });
+    updateUserLifestyle(data);
     props.onClick();
   };
 
@@ -94,10 +112,10 @@ export const LifestyleForm: React.FC<Props> = (props) => {
               control={form.control}
               name={
                 value.name as
-                  | "kebiasaanMerokok"
-                  | "konsumsiAlkohol"
-                  | "polaKonsumsi"
-                  | "aktivitasFisik"
+                  | "kebiasaan_merokok"
+                  | "konsumsi_alkohol"
+                  | "pola_konsumsi"
+                  | "aktivitas_fisik"
               }
               render={({ field }) => (
                 <FormItem>
@@ -119,8 +137,8 @@ export const LifestyleForm: React.FC<Props> = (props) => {
                       <SelectGroup>
                         <SelectLabel>{value.label}</SelectLabel>
                         {value.options.map((item, i) => (
-                          <SelectItem key={i} value={item}>
-                            {item}
+                          <SelectItem key={i} value={item.value}>
+                            {item.id}
                           </SelectItem>
                         ))}
                       </SelectGroup>

@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -42,7 +43,7 @@ function NutritionalRecommendationsModal({ children, data }: Props) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{data.food}</DialogTitle>
+          <DialogTitle>{data?.food}</DialogTitle>
         </DialogHeader>
         <DialogContent>
           <motion.div
@@ -53,33 +54,33 @@ function NutritionalRecommendationsModal({ children, data }: Props) {
           >
             {/* Vital Signs */}
             <div className="p-4">
-              <h3 className="text-lg font-semibold mb-4">{data.food}</h3>
+              <h3 className="text-lg font-semibold mb-4">{data?.food}</h3>
 
               <div className="grid grid-cols-2 gap-4">
                 <VitalSign
                   icon={<PiBowlFood className="w-6 h-6 text-red-500" />}
                   label="Jumlah Konsumsi"
                   value={
-                    data.servingGuidelines.amount.charAt(0).toUpperCase() +
-                    data.servingGuidelines.amount.slice(1)
+                    data?.servingGuidelines?.amount.charAt(0).toUpperCase() +
+                    data?.servingGuidelines?.amount.slice(1)
                   }
                 />
                 <VitalSign
                   icon={<IoTimeOutline className="w-6 h-6 text-orange-500" />}
                   label="Waktu Terbaik Konsumsi"
                   value={
-                    data.servingGuidelines.bestTimeToConsume
+                    data?.servingGuidelines?.bestTimeToConsume
                       .charAt(0)
                       .toUpperCase() +
-                    data.servingGuidelines.bestTimeToConsume.slice(1)
+                    data?.servingGuidelines?.bestTimeToConsume.slice(1)
                   }
                 />
                 <VitalSign
                   icon={<FaRegCalendarAlt className="w-6 h-6 text-blue-500" />}
                   label="Frekuensi Konsumsi"
                   value={
-                    data.servingGuidelines.frequency.charAt(0).toUpperCase() +
-                    data.servingGuidelines.frequency.slice(1)
+                    data?.servingGuidelines?.frequency.charAt(0).toUpperCase() +
+                    data?.servingGuidelines?.frequency.slice(1)
                   }
                 />
                 <VitalSign
@@ -87,7 +88,7 @@ function NutritionalRecommendationsModal({ children, data }: Props) {
                     <MdOutlineHealthAndSafety className="w-6 h-6 text-blue-300" />
                   }
                   label="Mencegah Penyakit"
-                  value={data.targetSymptoms.join(", ")}
+                  value={data?.targetSymptoms.join(", ")}
                 />
               </div>
             </div>
@@ -103,7 +104,7 @@ function NutritionalRecommendationsModal({ children, data }: Props) {
                 <h3 className="text-lg font-semibold mb-2">
                   Additional Information
                 </h3>
-                <p className="text-gray-600">{data.benefits}</p>
+                <p className="text-gray-600">{data?.benefits}</p>
               </div>
             </motion.div>
 

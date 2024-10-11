@@ -33,15 +33,21 @@ export const UserDetailForm: React.FC<Props> = (props) => {
   const form = useForm<z.infer<typeof demographicsSchema>>({
     resolver: zodResolver(demographicsSchema),
     defaultValues: {
-      beratBadan: "",
-      tinggiBadan: "",
-      jenisKelamin: "Laki-Laki",
-      usia: "",
+      berat_badan: "",
+      tinggi_badan: "",
+      jenis_kelamin: "Laki_Laki",
+      umur: "",
     },
   });
 
   const onSubmit = async (data: any) => {
-    updateUserDetails({ personalData: data });
+    const transformedData = {
+      ...data,
+      berat_badan: parseFloat(data.berat_badan),
+      tinggi_badan: parseFloat(data.tinggi_badan),
+      umur: parseInt(data.umur, 10),
+    };
+    updateUserDetails(transformedData);
     props.onClick();
   };
 
@@ -52,7 +58,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
           <div className="flex flex-col gap-y-4">
             <FormField
               control={form.control}
-              name="beratBadan"
+              name="berat_badan"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Berat Badan</FormLabel>
@@ -82,7 +88,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
             />
             <FormField
               control={form.control}
-              name="jenisKelamin"
+              name="jenis_kelamin"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Jenis Kelamin</FormLabel>
@@ -101,7 +107,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>Jenis Kelamin</SelectLabel>
-                        <SelectItem value="Laki-Laki">Laki - Laki</SelectItem>
+                        <SelectItem value="Laki_Laki">Laki - Laki</SelectItem>
                         <SelectItem value="Perempuan">Perempuan</SelectItem>
                       </SelectGroup>
                     </SelectContent>
@@ -115,7 +121,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
           <div className="flex flex-col gap-y-4">
             <FormField
               control={form.control}
-              name="tinggiBadan"
+              name="tinggi_badan"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tinggi Badan</FormLabel>
@@ -144,7 +150,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
             />
             <FormField
               control={form.control}
-              name="usia"
+              name="umur"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Usia</FormLabel>

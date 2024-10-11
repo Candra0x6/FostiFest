@@ -1,3 +1,6 @@
+import { demographicsPayload } from "@/lib/validators/demographicsSchema";
+import { lifestylePayload } from "@/lib/validators/lifestyleSchema";
+
 export interface HealthAnalysis {
     healthScore: {
       score: number;
@@ -49,3 +52,16 @@ export interface HealthAnalysis {
       followUpRecommendations: string;
     };
   }
+
+  export interface DemographicsDetails extends demographicsPayload {
+    chat_id : string,
+  }
+  export interface UserDetails extends DemographicsDetails {
+    kebiasaan_hidup: lifestylePayload
+    riwayat_penyakit: string[]
+  }
+export interface ChatResponse extends UserDetails {
+  detail_chat :{
+    isi_prompt : HealthAnalysis
+  }   
+}

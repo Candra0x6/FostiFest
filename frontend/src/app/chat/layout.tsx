@@ -7,7 +7,7 @@ export default async function ChatLayout({
 }) {
   return (
     <>
-      <aside className="fixed">
+      <aside className="z-50">
         <Sidebar />
       </aside>
       <main className="md:px-0 px-2">{children}</main>
