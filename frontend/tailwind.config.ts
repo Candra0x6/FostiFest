@@ -58,6 +58,7 @@ const config: Config = {
   		},
 		fontFamily: {
 			Poppins: "Poppins",
+			Inter: "Inter",
 		},
 		backgroundColor: {
 			primary: "#fff",

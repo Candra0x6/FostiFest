@@ -9,9 +9,9 @@ const Navbar = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const menuLinks = [
-    { name: "Why", link: "/#why" },
-    { name: "Benefit", link: "/#benefit" },
-    { name: "Check", link: "/#demo" },
+    { name: "Mengapa Kami", link: "/#why" },
+    { name: "Manfaat", link: "/#benefit" },
+    { name: "Cek Kesehatan", link: "/#demo" },
   ];
 
   useEffect(() => {
@@ -25,47 +25,42 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 z-[999] w-full flex justify-center ${
+        className={`fixed top-0 z-20 w-full flex justify-center ${
           sticky
-            ? "p-2 bg-white/90 md:drop-shadow-md md:rounded-xl md:mt-6 w-full md:w-[92%] md:mx-[4%]"
-            : "p-2 bg-transparent"
+            ? "p-2 md:py-4 bg-white md:drop-shadow-md md:rounded-xl md:mt-6 w-full md:w-[92%] md:mx-[4%]"
+            : "p-2 md:py-6 bg-transparent"
         }`}
       >
         <div className="w-full max-w-screen-xl flex items-center justify-between px-4">
-          <div className="mx-7">
-            <a
-              href="/"
-              className="flex items-center justify-start uppercase text-2xl md:text-3xl font-bold hover:bg-gradient-to-r hover:from-green-300 hover:via-blue-500 hover:to-purple-600 hover:bg-clip-text hover:text-transparent"
-            >
-              <span className="w-60">Title</span>
-            </a>
-          </div>
           {/* Desktop Menu */}
-          <div className="hidden md:flex container justify-between h-16 mx-auto md:justify-end md:space-x-8">
-            <ul className="items-stretch space-x-3 flex">
+          <div className="hidden md:flex justify-center items-center flex-1 -mr-[8%]">
+            <ul className="flex space-x-3">
               {menuLinks.map((menu, index) => (
-                <li className="flex text-center" key={index}>
+                <li className="flex text-center mt-2" key={index}>
                   <Link
                     rel="noopener noreferrer"
-                    className="flex items-center px-4 mb-1 border-b-2 border-transparent hover:bg-gradient-to-r hover:from-green-300 hover:via-blue-500 hover:to-purple-600 hover:bg-clip-text hover:text-transparent uppercase"
+                    className="flex items-center px-4 mb-1 border-b-2 border-transparent hover:text-blue-600 uppercase"
                     href={menu.link}
                   >
                     {menu.name}
                   </Link>
                 </li>
               ))}
-              <li className="flex py-3">
-                <button
-                  onClick={() => setModalOpen(true)}
-                  className={`ml-2 rounded-full px-8 py-2 text-sm font-medium border border-blue-600 text-blue-600 hover:border-transparent hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-500 hover:text-white`}
-                >
-                  Login
-                </button>
-              </li>
             </ul>
           </div>
 
-          <div className={`md:hidden z-[999]`}>
+          {/* Right-aligned Login Button */}
+          <div className="hidden md:flex">
+            <button
+              onClick={() => setModalOpen(true)}
+              className={`ml-2 rounded-full px-8 py-2 text-sm font-medium border border-blue-600 text-blue-600 hover:border-transparent hover:bg-blue-600 hover:text-white`}
+            >
+              Login
+            </button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <div className={`md:hidden z-[999] ml-auto`}>
             <div
               onClick={() => setOpen(!open)}
               className={`text-black text-3xl m-5`}

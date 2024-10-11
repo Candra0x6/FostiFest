@@ -26,21 +26,21 @@ const Case = () => {
     },
   ];
   return (
-    <section id="case" className="bg-[#ecf3fe] text-primary mx-16 rounded-xl shadow">
+    <section id="case" className="bg-[#ecf3fe] mx-16 rounded-xl shadow">
       <div className="mx-auto max-w-screen-xl px-4 py-12 lg:flex lg:h-fit items-center">
         <div className="mx-auto max-w-6xl text-center flex flex-col lg:flex-row gap-10 lg:gap-12">
-          {caseContent.map((item, index) => (  
+          {caseContent.map((item, index) => (
           <div key={index} className="flex flex-col gap-4 justify-center items-center flex-1">
-            <h1 className="text-4xl text-transparent font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text">
+            <h1 className="text-3xl md:text-4xl font-bold text-blue-600">
               <NumberTicker
                 value={item.tick}
                 delay={0}
                 decimalPlaces={0}
-                className="text-transparent font-bold bg-gradient-to-br from-blue-300 via-blue-500 to-purple-600 bg-clip-text"
+                className="text-blue-600 font-bold"
               />{" "}
               {item.number}
             </h1>
-            <p className="text-md md:text-lg">
+            <p className="text-sm md:text-md">
               {item.caption}
             </p>
             <p className="text-xs font-thin -mt-2 text-gray-500">
