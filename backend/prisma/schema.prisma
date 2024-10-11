@@ -1,0 +1,241 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  user_id      String   @id @default(cuid())
+  username     String   @unique
+  password     String
+  history_chat Chat[]
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model PromptHistory {
+  prompt_id        String         @id @default(cuid())
+  isi_prompt       HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId Int
+
+  created_at DateTime @default(now())
+
+  // relation 1-1 Chat-Prompt
+  from_chat Chat   @relation(fields: [chatId], references: [chat_id], onDelete: Cascade)
+  chatId    String @unique
+}
+
+model Chat {
+  chat_id          String            @id @default(cuid())
+  umur             Int
+  berat_badan      Float
+  tinggi_badan     Float
+  jenis_kelamin    JenisKelamin
+  riwayat_penyakit RiwayatPenyakit[]
+  kebiasaan_hidup  KebiasaanHidup?
+  detail_chat      PromptHistory?
+
+  // relation 1-m UserChat
+  author User   @relation(fields: [chatID], references: [user_id], onDelete: Cascade)
+  chatID String
+}
+
+model KebiasaanHidup {
+  id                String           @id @default(cuid())
+  aktivitas_fisik   AktivitasFisik
+  kebiasaan_merokok KebiasaanMerokok
+  konsumsi_alkohol  KonsumsiAlkohol
+  pola_konsumsi     PolaKonsumsi
+
+  from_chat Chat   @relation(fields: [chat_ID], references: [chat_id], onDelete: Cascade)
+  chat_ID   String @unique
+}
+
+enum PolaKonsumsi {
+  Seimbang
+  Vegetarian
+  Vegan
+  Tinggi_Protein
+  Tinggi_Karbohidrat
+  Rendah_Lemak
+  Keto
+  Bebas_Gluten
+  Tidak_Ada_Diet_Khusus
+}
+
+enum KonsumsiAlkohol {
+  Tidak_Pernah
+  Kadang_Kadang
+  Sering
+}
+
+enum KebiasaanMerokok {
+  Tidak_Merokok
+  Mantan_Perokok
+  Perokok_Aktif
+}
+
+enum AktivitasFisik {
+  Sangat_Jarang
+  Jarang
+  Sedang
+  Rutin
+}
+
+enum JenisKelamin {
+  Laki_Laki
+  Perempuan
+}
+
+enum RiwayatPenyakit {
+  Obesitas
+  Asma
+  Maag
+  Migrain
+  Hipertensi
+  Kolesterol
+  Anemia
+  Vertigo
+  Asam_Urat
+  Diabetes
+  Diare
+  Diabetes_Melitus
+}
+
+// HEALTH ANALYSIS
+enum Severity {
+  low
+  medium
+  high
+}
+
+enum MedicalAttention {
+  monitoring
+  consult
+  immediate
+}
+
+model HealthAnalysis {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  healthScore   HealthScore @relation(fields: [healthScoreId], references: [id], onDelete: Cascade)
+  healthScoreId Int         @unique
+
+  potentialConditions        PotentialCondition[]
+  lifestyleModifications     LifestyleModification[]
+  nutritionalRecommendations NutritionalRecommendation[]
+
+  healthSummary   HealthSummary   @relation(fields: [healthSummaryId], references: [id], onDelete: Cascade)
+  healthSummaryId Int             @unique
+  PromptHistory   PromptHistory[]
+}
+
+model HealthScore {
+  id               Int            @id @default(autoincrement())
+  score            Float
+  interpretation   Interpretation @relation(fields: [interpretationId], references: [id], onDelete: Cascade)
+  interpretationId Int            @unique
+
+  bmiAssessment   BMIAssessment @relation(fields: [bmiAssessmentId], references: [id], onDelete: Cascade)
+  bmiAssessmentId Int           @unique
+
+  healthAnalysis HealthAnalysis? @relation
+}
+
+model Interpretation {
+  id      Int    @id @default(autoincrement())
+  rating  Float
+  message String
+
+  healthScore HealthScore?
+}
+
+model BMIAssessment {
+  id                 Int    @id @default(autoincrement())
+  bmiValue           Float
+  category           String
+  healthImplications String
+
+  healthScore HealthScore?
+}
+
+model PotentialCondition {
+  id               Int              @id @default(autoincrement())
+  name             String
+  probability      Float
+  severity         Severity
+  medicalAttention MedicalAttention
+  detailedAnalysis String
+  recommendedTests String[] // Stored as a Postgres Array
+
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId Int
+}
+
+model LifestyleModification {
+  id               Int      @id @default(autoincrement())
+  activity         String
+  impactFactor     Float
+  targetConditions String[] // Stored as a Postgres Array
+
+  implementationPlan   ImplementationPlan @relation(fields: [implementationPlanId], references: [id], onDelete: Cascade)
+  implementationPlanId Int                @unique
+
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId Int
+}
+
+model ImplementationPlan {
+  id          Int      @id @default(autoincrement())
+  frequency   String
+  duration    String
+  intensity   String
+  precautions String[] // Stored as a Postgres Array
+
+  lifestyleModification LifestyleModification?
+}
+
+model NutritionalRecommendation {
+  id             Int      @id @default(autoincrement())
+  food           String
+  benefits       String
+  targetSymptoms String[] // Stored as a Postgres Array
+
+  servingGuidelines   ServingGuidelines @relation(fields: [servingGuidelinesId], references: [id], onDelete: Cascade)
+  servingGuidelinesId Int               @unique
+
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId Int
+}
+
+model ServingGuidelines {
+  id                Int      @id @default(autoincrement())
+  amount            String
+  frequency         String
+  bestTimeToConsume String
+  preparations      String[] // Stored as a Postgres Array
+
+  nutritionalRecommendation NutritionalRecommendation?
+}
+
+model HealthSummary {
+  id                      Int      @id @default(autoincrement())
+  overallAssessment       String
+  urgentConcerns          String[] // Stored as a Postgres Array
+  shortTermActions        String[] // Stored as a Postgres Array
+  longTermStrategy        String
+  followUpRecommendations String
+
+  healthAnalysis HealthAnalysis?
+}
