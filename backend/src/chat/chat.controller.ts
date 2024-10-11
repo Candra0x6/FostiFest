@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { DataFE, UserWithChats } from 'src/db.type';
+import { DataFE, UserWithChats } from '../db.type';
 import { Chat, User } from '@prisma/client';
 
 @Controller('/api/chat')
