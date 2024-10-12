@@ -3,9 +3,17 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Hamburger from "./hamburger";
 import { useRouter } from "next/navigation";
-import { JwtPayload } from "jsonwebtoken";
+import { UserData } from "@/hooks/useSession";
+import useSessionStore from "@/store/session-store";
 
-const Navbar = ({ userData }: { userData: JwtPayload }) => {
+const Navbar = ({ userData }: { userData: UserData }) => {
+  const { login } = useSessionStore();
+  useEffect(() => {
+    if (userData) {
+      login(userData);
+    }
+  }, [userData]);
+
   const [sticky, setSticky] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();

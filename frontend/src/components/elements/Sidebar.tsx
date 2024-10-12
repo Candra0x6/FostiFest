@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { RiHealthBookLine } from "react-icons/ri";
 import { ChatResponse } from "@/types/HealthPredictAI";
 import { useRouter } from "next/navigation";
+import useSessionStore from "@/store/session-store";
 
 export default function Sidebar() {
   const router = useRouter();
-  const [historyChat, setHistoryChat] = useState<ChatResponse[]>([]);
+  const [historyChat, setHistoryChat] = useState<ChatResponse[] | null>([]);
   const [isOpen, setIsOpen] = useState(true);
-
+  const { userData } = useSessionStore();
   const getAllUsersChat = async ({ userId }: { userId: string }) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`,
@@ -24,10 +25,10 @@ export default function Sidebar() {
       }
     );
     const data = await response.json();
-    setHistoryChat(data.history_chat);
+    setHistoryChat(data?.history_chat);
   };
   useEffect(() => {
-    getAllUsersChat({ userId: "cm22vx2tg0000d093gi822mak" });
+    getAllUsersChat({ userId: userData?.user_id as string });
   }, []);
   return (
     <div className="p-4 flex justify-end z-50">
@@ -40,27 +41,28 @@ export default function Sidebar() {
         <div className="px-4 pb-4">
           <h2 className="text-lg font-semibold mb-2">Recent</h2>
           <AnimatePresence>
-            {historyChat.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2, delay: index * 0.05 }}
-              >
-                <Button
-                  onClick={() => router.push(`/chat/${item.chat_id}`)}
-                  variant="ghost"
-                  className="w-full justify-start text-left mb-2 rounded-xl hover:bg-primary"
+            {historyChat &&
+              historyChat.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2, delay: index * 0.05 }}
                 >
-                  <Clock className="mr-2 h-4 w-4" />
-                  {
-                    item.detail_chat.isi_prompt.healthScore.bmiAssessment
-                      .category
-                  }
-                </Button>
-              </motion.div>
-            ))}
+                  <Button
+                    onClick={() => router.push(`/chat/${item.chat_id}`)}
+                    variant="ghost"
+                    className="w-full justify-start text-left mb-2 rounded-xl hover:bg-primary"
+                  >
+                    <Clock className="mr-2 h-4 w-4" />
+                    {
+                      item.detail_chat.isi_prompt.healthScore.bmiAssessment
+                        .category
+                    }
+                  </Button>
+                </motion.div>
+              ))}
           </AnimatePresence>
         </div>
       </motion.div>
