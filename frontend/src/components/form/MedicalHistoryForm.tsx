@@ -35,7 +35,7 @@ const items = [
   { id: "Kolesterol", label: "Kolesterol" },
   { id: "Anemia", label: "Anemia" },
   { id: "Vertigo", label: "Vertigo" },
-  { id: "Asam_urat", label: "Asam Urat" },
+  { id: "Asam_Urat", label: "Asam Urat" },
   { id: "Diabetes", label: "Diabetes" },
   { id: "Diare", label: "Diare" },
   { id: "Diabetes_Melitus", label: "Diabetes Melitus" },
