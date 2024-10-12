@@ -1,4 +1,4 @@
-# HealthLens: Predictive Disease Detection
+# HealthLens: Predictive Disease Detection (FOSTIFEST-COMPETITION)
 
 ![AI HealthLens Logo](https://via.placeholder.com/150)
 
