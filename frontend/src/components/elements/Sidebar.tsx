@@ -14,6 +14,7 @@ export default function Sidebar() {
   const [historyChat, setHistoryChat] = useState<ChatResponse[] | null>([]);
   const [isOpen, setIsOpen] = useState(true);
   const { userData } = useSessionStore();
+  console.log(userData?.user_id);
   const getAllUsersChat = async ({ userId }: { userId: string }) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`,
@@ -28,8 +29,10 @@ export default function Sidebar() {
     setHistoryChat(data?.history_chat);
   };
   useEffect(() => {
-    getAllUsersChat({ userId: userData?.user_id as string });
-  }, []);
+    if (userData?.user_id) {
+      getAllUsersChat({ userId: userData?.user_id as string });
+    }
+  }, [userData?.user_id]);
   return (
     <div className="p-4 flex justify-end z-50">
       <motion.div

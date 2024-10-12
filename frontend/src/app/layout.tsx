@@ -45,7 +45,7 @@ export default async function RootLayout({
         className={`${poppinsBold.variable} ${poppinsRegular.variable} antialiased`}
       >
         <header>
-          <Navbar userData={userData as UserData} />
+          <Navbar userData={userData?.user as UserData} />
         </header>
         <main>{children}</main>
         <Toaster />

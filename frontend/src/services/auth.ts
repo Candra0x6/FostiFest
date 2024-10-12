@@ -54,7 +54,7 @@ export async function login(formData: { username: string; password: string }) {
 
     const data = await response.json();
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       const encryptedSession = await encrypt(data, "session");
       const cookies = require("next/headers").cookies;
       cookies().set("session", encryptedSession, {
