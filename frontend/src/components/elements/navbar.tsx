@@ -106,12 +106,12 @@ const Navbar = ({ userData }: { userData: UserData }) => {
               ))}
               <li className="mt-6 hover:text-blue-500">
                 <button
-                  onClick={() => {
-                    setOpen(false);
-                  }}
+                  onClick={() =>
+                    userData ? router.push("/chat") : router.push("/login")
+                  }
                   className="rounded-full w-full py-2 text-sm font-medium border border-blue-600 text-blue-600 hover:bg-gradient-to-l hover:from-blue-600 hover:to-purple-500 hover:text-white"
                 >
-                  Login
+                  {userData ? "Dashboard" : "Login"}
                 </button>
               </li>
             </ul>
