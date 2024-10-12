@@ -35,7 +35,7 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
           className="text-3xl font-bold mb-6 text-primary text-center"
           {...fadeIn}
         >
-          HealthLens Risk Detection Results
+          Hasil Analisis HealthLeans
         </motion.h1>
         <motion.div {...fadeIn} transition={{ delay: 0.1 }} className="my-4">
           <Card>
@@ -96,7 +96,7 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1 * 0.1 }}
-                        className="bg-primary/5 rounded-2xl p-4 shadow-sm cursor-pointer"
+                        className="bg-primary/10 rounded-2xl p-4 shadow-sm cursor-pointer"
                       >
                         <div className="flex justify-between items-center mb-2">
                           <h3 className="text-lg font-semibold">
@@ -112,7 +112,11 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
                         <div className="mt-2 flex items-center text-sm text-gray-600">
                           <span className="ml-2">
                             {lifestyle?.implementationPlan?.duration} (
-                            {lifestyle?.implementationPlan?.frequency})
+                            {truncateText(
+                              lifestyle?.implementationPlan?.frequency,
+                              12
+                            )}
+                            )
                           </span>
                         </div>
                       </motion.div>

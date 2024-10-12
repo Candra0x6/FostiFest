@@ -39,7 +39,7 @@ export default function Disases(props: { potentialConditions: Disease[] }) {
       <CardHeader className="flex items-center">
         <CardTitle className="flex items-center">
           <TbReportMedical className="w-6 h-6 mr-2" />
-          Tingkat Kemungkinan Penyakit
+          Kemungkinan Penyakit
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -68,7 +68,7 @@ export default function Disases(props: { potentialConditions: Disease[] }) {
                 <div className="mt-2 flex items-center text-sm text-gray-600">
                   {getSeverityIcon(disease.severity)}
                   <span className="ml-2">
-                    {truncateText(disease?.recommendedTests[0], 25)}
+                    {truncateText(disease?.recommendedTests[0], 22)}
                   </span>
                 </div>
               </motion.div>

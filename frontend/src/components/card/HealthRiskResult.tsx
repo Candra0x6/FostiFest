@@ -56,7 +56,7 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
           className="text-3xl font-bold mb-6 text-primary text-center"
           {...fadeIn}
         >
-          HealthLens Risk Detection Results
+          Hasil Analisis HealthLeans
         </motion.h1>
         <motion.div {...fadeIn} transition={{ delay: 0.1 }} className="my-4">
           <Card>
@@ -133,7 +133,11 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
                         <div className="mt-2 flex items-center text-sm text-gray-600">
                           <span className="ml-2">
                             {lifestyle.implementationPlan.duration} (
-                            {lifestyle.implementationPlan.frequency})
+                            {truncateText(
+                              lifestyle.implementationPlan.frequency,
+                              12
+                            )}
+                            )
                           </span>
                         </div>
                       </motion.div>

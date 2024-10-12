@@ -1,13 +1,14 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Modal from "./modal/login";
 import Hamburger from "./hamburger";
+import { useRouter } from "next/navigation";
+import { JwtPayload } from "jsonwebtoken";
 
-const Navbar = () => {
+const Navbar = ({ userData }: { userData: JwtPayload }) => {
   const [sticky, setSticky] = useState(false);
   const [open, setOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-
+  const router = useRouter();
   const menuLinks = [
     { name: "Mengapa Kami", link: "/#why" },
     { name: "Manfaat", link: "/#benefit" },
@@ -52,10 +53,12 @@ const Navbar = () => {
           {/* Right-aligned Login Button */}
           <div className="hidden md:flex">
             <button
-              onClick={() => setModalOpen(true)}
+              onClick={() =>
+                userData ? router.push("/chat") : router.push("/login")
+              }
               className={`ml-2 rounded-full px-8 py-2 text-sm font-medium border border-blue-600 text-blue-600 hover:border-transparent hover:bg-blue-600 hover:text-white`}
             >
-              Login
+              {userData ? "Dashboard" : "Login"}
             </button>
           </div>
 
@@ -74,7 +77,7 @@ const Navbar = () => {
             className={`md:hidden fixed inset-0 bg-white/90 z-[999] flex flex-col transition-transform duration-300 ${
               open ? "translate-y-0" : "-translate-y-full"
             }`}
-            style={{ height: '100vh' }}
+            style={{ height: "100vh" }}
           >
             <div
               className="absolute top-4 right-4 text-black text-3xl cursor-pointer"
@@ -96,7 +99,6 @@ const Navbar = () => {
               <li className="mt-6 hover:text-blue-500">
                 <button
                   onClick={() => {
-                    setModalOpen(true);
                     setOpen(false);
                   }}
                   className="rounded-full w-full py-2 text-sm font-medium border border-blue-600 text-blue-600 hover:bg-gradient-to-l hover:from-blue-600 hover:to-purple-500 hover:text-white"
@@ -110,7 +112,6 @@ const Navbar = () => {
       </nav>
 
       {/* Render modal */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 };

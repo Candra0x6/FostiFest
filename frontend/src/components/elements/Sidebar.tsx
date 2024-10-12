@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Clock, X } from "lucide-react";
@@ -29,11 +29,10 @@ export default function Sidebar() {
   useEffect(() => {
     getAllUsersChat({ userId: "cm22vx2tg0000d093gi822mak" });
   }, []);
-
   return (
     <div className="p-4 flex justify-end z-50">
       <motion.div
-        initial={{ x: "100%" }}
+        initial={{ x: "-100%" }}
         animate={{ x: isOpen ? 0 : "-100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="w-80 h-screen bg-white z-40 rounded-3xl shadow-lg overflow-hidden fixed left-0 top-0 py-16"
