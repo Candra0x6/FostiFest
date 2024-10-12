@@ -17,6 +17,9 @@ import LifestyleInfoModal from "../model/lifestyleInfoModal";
 import { truncateText } from "@/hooks/truncateText";
 import { FaApple } from "react-icons/fa6";
 import NutritionalRecommendationsModal from "../model/nutritionalRcommendationsModal";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 type Props = {
   data: ChatResponse;
 };
@@ -27,7 +30,7 @@ const fadeIn = {
 };
 
 export const HealthRiskResultCard: React.FC<Props> = (props) => {
-  console.log(props.data);
+  const router = useRouter();
   return (
     <>
       <div className="flex flex-col">
@@ -190,6 +193,12 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
             </p>
           </CardContent>
         </Card>
+        <Button
+          onClick={() => router.push("/chat")}
+          className="w-full mt-4 bg-primary"
+        >
+          Back to Home
+        </Button>
       </motion.div>
     </>
   );

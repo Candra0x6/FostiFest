@@ -13,6 +13,7 @@ import { MedicalHistoryCard } from "../card/MedicalHistoryCard";
 import { HealthRiskResult } from "../card/HealthRiskResult";
 import { LifestyleInfoCard } from "../card/LifestyleInfoCard";
 import { useUserHealthStore } from "@/store/user-health-store";
+import { useRouter } from "next/navigation";
 const nutrition = [
   {
     id: 1,
@@ -62,6 +63,7 @@ export default function SickPrediction() {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   const handleStep = () => {
     nextStep();
   };
@@ -161,7 +163,7 @@ export default function SickPrediction() {
           return (
             <div className="bg-white p-6 rounded-lg shadow-md">
               <p className="text-sm text-primary mt-2">SOON</p>
-              <Button onClick={() => setCurrentStep(0)} className="w-full">
+              <Button onClick={() => router.push("/chat")} className="w-full">
                 Kembali ke Beranda
               </Button>
             </div>
@@ -188,7 +190,7 @@ export default function SickPrediction() {
                 <LoadingStethoscope />
               ) : (
                 <div>
-                  <HealthRiskResult onClick={() => backToHome} />
+                  <HealthRiskResult onClick={() => backToHome()} />
                 </div>
               )}
             </div>

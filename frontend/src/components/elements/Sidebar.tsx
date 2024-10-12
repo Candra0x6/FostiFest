@@ -14,7 +14,6 @@ export default function Sidebar() {
   const [historyChat, setHistoryChat] = useState<ChatResponse[] | null>([]);
   const [isOpen, setIsOpen] = useState(true);
   const { userData } = useSessionStore();
-  console.log(userData?.user_id);
   const getAllUsersChat = async ({ userId }: { userId: string }) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userId}`,

@@ -11,26 +11,30 @@ import { truncateText } from "@/hooks/truncateText";
 import LifestyleInfoModal from "../model/lifestyleInfoModal";
 import NutritionalRecommendationsModal from "../model/nutritionalRcommendationsModal";
 import { lifestylePayload } from "@/lib/validators/lifestyleSchema";
+import useSessionStore from "@/store/session-store";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5 },
 };
 export const HealthRiskResult = (props: { onClick: () => void }) => {
+  const router = useRouter();
   const {
     generateContentResponse,
     medicalHistory,
     userDetails,
     userLifestyle,
   } = useUserHealthStore();
-
+  const { userData } = useSessionStore();
   const detailUser = {
     ...userDetails,
     ...userLifestyle,
     ...medicalHistory,
     ...generateContentResponse?.analysis,
   };
-  const handleApiCall = async ({ userId }: { userId: string }) => {
+  const createChat = async ({ userId }: { userId: string }) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/chat/${userId}`,
@@ -48,7 +52,6 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
     }
   };
 
-  console.log(generateContentResponse);
   return (
     <div className="">
       <div className="flex flex-col">
@@ -213,7 +216,9 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
         </Card>
       </motion.div>
       <Button
-        onClick={() => handleApiCall({ userId: "cm22vx2tg0000d093gi822mak" })}
+        onClick={() => {
+          props.onClick(), createChat({ userId: userData?.user_id as string });
+        }}
         className="w-full mt-4"
       >
         Back to Home
