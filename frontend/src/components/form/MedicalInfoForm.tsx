@@ -173,7 +173,7 @@ export const UserDetailForm: React.FC<Props> = (props) => {
             />
           </div>
         </div>
-        <Button type="submit" className="mt-5 w-full">
+        <Button type="submit" className="mt-5 w-full hover:bg-pr">
           Continue
         </Button>
       </form>

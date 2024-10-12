@@ -29,7 +29,7 @@ const ChatDetailsPage = () => {
     getChatDetails();
   }, []);
   return (
-    <div>
+    <div className="mx-auto max-w-screen-sm">
       <HealthRiskResultCard data={chatDetails as ChatResponse} />
     </div>
   );

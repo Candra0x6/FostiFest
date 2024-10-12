@@ -5,13 +5,11 @@ import Navbar from "@/components/elements/navbar";
 import Benefit from "@/components/ui/benefit";
 import Why from "@/components/ui/why";
 import Demo from "@/components/ui/demo-feature";
-import { useCookies } from "./useCookies";
 // import Footer from "@/components/elements/footer";
 
 export default function Home() {
   return (
-    <div className="bg-primary font-Poppins">
-      <Navbar />
+    <div className="font-Poppins">
       <Hero />
       <Case />
       <Why />
