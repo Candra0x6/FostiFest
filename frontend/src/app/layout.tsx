@@ -4,11 +4,9 @@ import "./globals.css";
 import { decrypt } from "@/lib/decrypt";
 import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/toaster";
-import { UserData, useSession } from "@/hooks/useSession";
+import { UserData } from "@/hooks/useSession";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Navbar from "@/components/elements/navbar";
-import { JwtPayload } from "jsonwebtoken";
-import useSessionStore from "@/store/session-store";
 
 const poppinsRegular = localFont({
   src: "./fonts/Poppins-Regular.ttf",

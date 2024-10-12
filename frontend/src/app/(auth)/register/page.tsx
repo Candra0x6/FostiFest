@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { register } from "@/services/auth";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/hooks/useSession";
-import { cookies } from "next/headers";
 
 const RegisterPage: React.FC = () => {
   const { toast } = useToast();
@@ -28,7 +26,6 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     const result = await register(formData);
-    console.log(result);
     toast({
       title: result.message,
       duration: 1000,
@@ -39,7 +36,7 @@ const RegisterPage: React.FC = () => {
         username: "",
         password: "",
       });
-      router.push("/chat");
+      router.push("/login");
     }
   };
   return (

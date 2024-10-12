@@ -1,14 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { PiFileText } from "react-icons/pi";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ChatResponse } from "@/types/HealthPredictAI";
 import { Activity, Calendar, FileText } from "lucide-react";
 import { Progress } from "../ui/progress";
@@ -17,7 +9,6 @@ import LifestyleInfoModal from "../model/lifestyleInfoModal";
 import { truncateText } from "@/hooks/truncateText";
 import { FaApple } from "react-icons/fa6";
 import NutritionalRecommendationsModal from "../model/nutritionalRcommendationsModal";
-import Link from "next/link";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 type Props = {
@@ -93,7 +84,7 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
               <CardContent className="space-y-5">
                 {props?.data?.detail_chat?.isi_prompt?.lifestyleModifications.map(
                   (lifestyle, index) => (
-                    <LifestyleInfoModal data={lifestyle}>
+                    <LifestyleInfoModal key={index} data={lifestyle}>
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
@@ -147,7 +138,7 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {props?.data?.detail_chat?.isi_prompt?.nutritionalRecommendations.map(
                     (item, index) => (
-                      <NutritionalRecommendationsModal data={item}>
+                      <NutritionalRecommendationsModal key={index} data={item}>
                         <div
                           key={index}
                           className="bg-primary/5 rounded-2xl p-4 shadow-sm cursor-pointer"
@@ -188,7 +179,7 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
                   ?.overallAssessment +
                 " " +
                 props?.data?.detail_chat?.isi_prompt?.healthSummary?.shortTermActions.map(
-                  (Item, index) => Item + " "
+                  (Item) => Item + " "
                 )}
             </p>
           </CardContent>

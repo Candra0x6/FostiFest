@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -10,17 +10,13 @@ import { useUserHealthStore } from "@/store/user-health-store";
 import { truncateText } from "@/hooks/truncateText";
 import LifestyleInfoModal from "../model/lifestyleInfoModal";
 import NutritionalRecommendationsModal from "../model/nutritionalRcommendationsModal";
-import { lifestylePayload } from "@/lib/validators/lifestyleSchema";
 import useSessionStore from "@/store/session-store";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5 },
 };
 export const HealthRiskResult = (props: { onClick: () => void }) => {
-  const router = useRouter();
   const {
     generateContentResponse,
     medicalHistory,
@@ -47,6 +43,7 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
         }
       );
       const data = await response.json();
+      return data;
     } catch (err) {
       console.error(err);
     }
@@ -114,7 +111,7 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
               <CardContent className="space-y-5">
                 {generateContentResponse?.analysis?.lifestyleModifications.map(
                   (lifestyle, index) => (
-                    <LifestyleInfoModal data={lifestyle}>
+                    <LifestyleInfoModal key={index} data={lifestyle}>
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
@@ -168,7 +165,7 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {generateContentResponse?.analysis?.nutritionalRecommendations.map(
                     (item, index) => (
-                      <NutritionalRecommendationsModal data={item}>
+                      <NutritionalRecommendationsModal key={index} data={item}>
                         <div
                           key={index}
                           className="bg-primary/5 rounded-2xl p-4 shadow-sm cursor-pointer"
@@ -209,7 +206,7 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
                   .overallAssessment +
                 " " +
                 generateContentResponse?.analysis?.healthSummary.shortTermActions.map(
-                  (Item, index) => Item + " "
+                  (Item) => Item + " "
                 )}
             </p>
           </CardContent>
@@ -217,7 +214,8 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
       </motion.div>
       <Button
         onClick={() => {
-          props.onClick(), createChat({ userId: userData?.user_id as string });
+          props.onClick();
+          createChat({ userId: userData?.user_id as string });
         }}
         className="w-full mt-4"
       >

@@ -14,6 +14,7 @@ import { HealthRiskResult } from "../card/HealthRiskResult";
 import { LifestyleInfoCard } from "../card/LifestyleInfoCard";
 import { useUserHealthStore } from "@/store/user-health-store";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 const nutrition = [
   {
     id: 1,
@@ -62,7 +63,6 @@ export default function SickPrediction() {
   const { generateContentResponse } = useUserHealthStore();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const handleStep = () => {
     nextStep();
@@ -75,9 +75,6 @@ export default function SickPrediction() {
   const backToHome = () => {
     setCurrentStep(0);
   };
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 3000);
 
   // Clean up the timer on unmount
   const steps = [
@@ -130,7 +127,7 @@ export default function SickPrediction() {
                   >
                     <div className="flex items-center space-x-4">
                       <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
-                        <img
+                        <Image
                           src={`/api/placeholder/64/64`}
                           alt={item.name}
                           className="w-full h-full object-cover"

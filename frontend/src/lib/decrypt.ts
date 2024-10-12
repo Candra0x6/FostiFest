@@ -1,4 +1,3 @@
-import { JwtPayload } from "jsonwebtoken";
 import { jwtVerify } from "jose";
 import { UserData } from "@/hooks/useSession";
 interface DecryptData {

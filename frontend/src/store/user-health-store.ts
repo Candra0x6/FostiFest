@@ -3,7 +3,7 @@ import { lifestylePayload } from '@/lib/validators/lifestyleSchema';
 import { GenerateContentResponse } from '@/services/disease-prediction-ai-service';
 import { create } from 'zustand';
 
-export interface UserDetails extends demographicsPayload{}
+export type UserDetails = demographicsPayload
 
 interface UserLifestyle {
     kebiasaan_hidup: lifestylePayload

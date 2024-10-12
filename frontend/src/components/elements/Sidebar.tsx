@@ -1,8 +1,7 @@
 "use client";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Clock, X } from "lucide-react";
+import { Clock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RiHealthBookLine } from "react-icons/ri";
 import { ChatResponse } from "@/types/HealthPredictAI";
