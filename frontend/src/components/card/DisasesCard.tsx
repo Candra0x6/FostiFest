@@ -45,7 +45,7 @@ export default function Disases(props: { potentialConditions: Disease[] }) {
       <CardContent>
         <div className="space-y-5">
           {props?.potentialConditions?.map((disease, index) => (
-            <PotentialConditionsModel data={disease && disease}>
+            <PotentialConditionsModel key={index} data={disease && disease}>
               <motion.div
                 key={disease.name}
                 initial={{ opacity: 0, y: 20 }}

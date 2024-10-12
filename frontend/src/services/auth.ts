@@ -22,7 +22,6 @@ export async function register(formData: {
 
     if (response.status === 201) {
       const encryptedSession = await encrypt(data, "session");
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const cookies = require("next/headers").cookies;
       cookies().set("session", encryptedSession, {
         httpOnly: true,
@@ -57,7 +56,6 @@ export async function login(formData: { username: string; password: string }) {
 
     if (response.status === 200) {
       const encryptedSession = await encrypt(data, "session");
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const cookies = require("next/headers").cookies;
       cookies().set("session", encryptedSession, {
         httpOnly: true,
