@@ -36,49 +36,30 @@ const Navbar = ({ userData }: { userData: UserData }) => {
       <nav
         className={`fixed top-0 z-20 w-full flex justify-center ${
           sticky
-            ? "p-2 md:py-4 bg-white md:drop-shadow-md md:rounded-xl md:mt-6 w-full md:w-[92%] md:mx-[4%]"
+            ? "p-2 py-4 bg-white md:drop-shadow-md md:rounded-xl md:mt-6 w-full md:w-[92%] md:mx-[4%]"
             : "p-2 md:py-6 bg-transparent"
         }`}
       >
         <div className="w-full max-w-screen-xl flex items-center justify-between px-4">
           {/* Desktop Menu */}
-          <div className="hidden md:flex justify-center items-center flex-1 -mr-[8%]">
-            <ul className="flex space-x-3">
-              {menuLinks.map((menu, index) => (
-                <li className="flex text-center mt-2" key={index}>
-                  <Link
-                    rel="noopener noreferrer"
-                    className="flex items-center px-4 mb-1 border-b-2 border-transparent hover:text-blue-600 uppercase"
-                    href={menu.link}
-                  >
-                    {menu.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="">
+            <Link href={"/"} className="font-semibold text-primary text-xl">
+              HealthLeans
+            </Link>
           </div>
-
           {/* Right-aligned Login Button */}
-          <div className="hidden md:flex">
+          <div className="flex">
             <button
               onClick={() =>
                 userData ? router.push("/chat") : router.push("/login")
               }
-              className={`ml-2 rounded-full px-8 py-2 text-sm font-medium border border-blue-600 text-blue-600 hover:border-transparent hover:bg-blue-600 hover:text-white`}
+              className={`ml-2 rounded-full md:px-8 md:py-2 px-3 py-1 text-sm font-medium border border-blue-600 text-blue-600 hover:border-transparent hover:bg-blue-600 hover:text-white`}
             >
               {userData ? "Dashboard" : "Login"}
             </button>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className={`md:hidden z-[999] ml-auto`}>
-            <div
-              onClick={() => setOpen(!open)}
-              className={`text-black text-3xl m-5`}
-            >
-              <Hamburger />
-            </div>
-          </div>
 
           {/* Mobile Menu */}
           <div

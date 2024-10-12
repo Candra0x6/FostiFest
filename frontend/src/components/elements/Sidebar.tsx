@@ -70,7 +70,7 @@ export default function Sidebar() {
       <Button
         variant="ghost"
         size="icon"
-        className="fixed top-4 left-4 z-50 bg-primary hover:bg-primary text-white rounded-full shadow-md p-5"
+        className="fixed md:top-4 top-10 md:left-4 left-10 z-50 bg-primary hover:bg-primary text-white rounded-full shadow-md p-5"
         onClick={() => setIsOpen(!isOpen)}
       >
         <AnimatePresence>

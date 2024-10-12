@@ -14,7 +14,6 @@ import { HealthRiskResult } from "../card/HealthRiskResult";
 import { LifestyleInfoCard } from "../card/LifestyleInfoCard";
 import { useUserHealthStore } from "@/store/user-health-store";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 const nutrition = [
   {
     id: 1,
@@ -82,6 +81,12 @@ export default function SickPrediction() {
       title: "Step 1",
       content: () => (
         <div className="flex flex-col space-y-4 mt-10">
+          <h1 className="text-5xl text-center mt-5 font-bold text-primary">
+            HealthLeans-AI
+          </h1>
+          <span className="text-accent text-lg text-center">
+            Pilih Fitur yang ingin Anda gunakan
+          </span>
           <AiChoiseCard
             title="Periksa Diri"
             description="Periksa diri Anda dengan AI untuk mengetahui gejala penyakit yang diderita."
@@ -126,13 +131,7 @@ export default function SickPrediction() {
                     }}
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
-                        <Image
-                          src={`/api/placeholder/64/64`}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
+                      <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden"></div>
                       <div>
                         <h3 className="font-semibold">{item.name}</h3>
                         <p className="text-sm text-gray-600">
