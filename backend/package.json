@@ -22,7 +22,8 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:pull": "prisma db pull",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
