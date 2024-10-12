@@ -33,7 +33,7 @@ export const HealthRiskResultCard: React.FC<Props> = (props) => {
   const router = useRouter();
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-20">
         <motion.h1
           className="text-3xl font-bold mb-6 text-primary text-center"
           {...fadeIn}

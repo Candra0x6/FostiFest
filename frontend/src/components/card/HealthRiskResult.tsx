@@ -53,7 +53,7 @@ export const HealthRiskResult = (props: { onClick: () => void }) => {
   };
 
   return (
-    <div className="">
+    <div className="mt-10">
       <div className="flex flex-col">
         <motion.h1
           className="text-3xl font-bold mb-6 text-primary text-center"
